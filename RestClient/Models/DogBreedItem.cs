@@ -17,6 +17,13 @@ namespace DogRestAPI.Models
         public string BreedName { get; set; }
 
         //List of sub-breeds in dog breed
-        public List<string> SubBreed{ get; set; }
+        public ICollection<DogSubBreed> SubBreed{ get; set; }
+    }
+
+    public class DogSubBreed
+    {
+        public long Id { get; set; }
+
+        public string SubBreedName { get; set; }
     }
 }
