@@ -18,7 +18,7 @@
         /// <summary>
         /// Context holds data entities for rest controller perform functions on.
         /// </summary>
-        private readonly DogBreedContext controllerContext;
+        private readonly DogBreedContext dataContext;
 
         /// <summary>
         /// Ctor for DogBreedController. 
@@ -27,9 +27,9 @@
         /// <param name="context">Hand in data context from storage if available?</param>
         public DogBreedController(DogBreedContext context)
         {
-            this.controllerContext = context;
+            this.dataContext = context;
 
-            if (this.controllerContext.DogBreedItemList.Count() == 0)
+            if (this.dataContext.DogBreedItemList.Count() == 0)
             {
                 PopulateContextFromJson();
             }
@@ -43,20 +43,31 @@
         {
             ///TODO: If not populated, read in Json Payload
             ///But just create these objects for now.
-            controllerContext.DogBreedItemList.Add(new DogBreedItem { Id = 1, BreedName = "Hound1", SubBreed = new List<DogSubBreed>() });
-            controllerContext.DogBreedItemList.Add(new DogBreedItem { Id = 2, BreedName = "Hound2", SubBreed = new List<DogSubBreed>() });
+            List<DogBreedItem> dogBreeds = new List<DogBreedItem>
+            {
+                new DogBreedItem { DogBreedItemId = 1, BreedName = "Hound1" },
+                new DogBreedItem { DogBreedItemId = 2, BreedName = "Hound2" }
+            };
+
+            dogBreeds.ForEach(breed => dataContext.DogBreedItemList.Add(breed));
+            dataContext.SaveChanges();
+
+            List<DogSubBreed> subBreeds = new List<DogSubBreed>
+            {
+                new DogSubBreed {  ParentBreedId = dataContext.DogBreedItemList.Find((long)1).DogBreedItemId, SubBreedName = "Hound1.1"},
+                new DogSubBreed { ParentBreedId = dataContext.DogBreedItemList.Find((long)1).DogBreedItemId, SubBreedName = "Hound1.2" },
+                new DogSubBreed { ParentBreedId = dataContext.DogBreedItemList.Find((long)2).DogBreedItemId, SubBreedName = "Hound2.1" },
+                new DogSubBreed { ParentBreedId = dataContext.DogBreedItemList.Find((long)2).DogBreedItemId, SubBreedName = "Hound2.2" }
+            };
+
+            subBreeds.ForEach(subBreed => dataContext.DogSubBreedItemList.Add(subBreed));
+            dataContext.SaveChanges();
+
+            dataContext.DogBreedItemList.First(x => x.DogBreedItemId == 1).SubBreeds = new List<DogSubBreed>() { dataContext.DogSubBreedItemList.First(x => x.DogSubBreedId == 1), dataContext.DogSubBreedItemList.First(x => x.DogSubBreedId == 2)};
+            dataContext.DogBreedItemList.First(x => x.DogBreedItemId == 2).SubBreeds = new List<DogSubBreed>() { dataContext.DogSubBreedItemList.First(x => x.DogSubBreedId == 3), dataContext.DogSubBreedItemList.First(x => x.DogSubBreedId == 4)};
 
             ///Push changes up so entity db can add a sub-breed to each DogBreed
-            controllerContext.SaveChangesAsync();
-
-            ///Populate sub-breeds in current breed dataset.
-            controllerContext.DogBreedItemList.First(x => x.Id == 1).SubBreed.Add(new DogSubBreed { SubBreedName = "SubBreed1.1" });
-            controllerContext.DogBreedItemList.First(x => x.Id == 1).SubBreed.Add(new DogSubBreed { SubBreedName = "SubBreed1.2" });
-
-            controllerContext.DogBreedItemList.First(x => x.Id == 2).SubBreed.Add(new DogSubBreed { SubBreedName = "SubBreed2.1" });
-            controllerContext.DogBreedItemList.First(x => x.Id == 2).SubBreed.Add(new DogSubBreed { SubBreedName = "SubBreed2.2" });
-
-            controllerContext.SaveChangesAsync();
+            dataContext.SaveChanges();
         }
 
         #region HTTPGet
@@ -68,9 +79,9 @@
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DogBreedItem>>> GetAllBreeds()
         {
-            List<DogBreedItem> items = await controllerContext.DogBreedItemList.ToListAsync();
+            IEnumerable<DogBreedItem> items = dataContext.DogBreedItemList.Include(n => n.SubBreeds).AsEnumerable();
             
-            if (items.Count == 0)
+            if (items.Count() == 0)
             {
                 return NoContent();
             }
@@ -90,7 +101,7 @@
             DogBreedItem requestedBreed;
             try
             {
-                requestedBreed = await controllerContext.DogBreedItemList.FirstAsync(x => x.Id == id);
+                requestedBreed = await dataContext.DogBreedItemList.FirstAsync(x => x.DogBreedItemId == id);
                 return Ok(requestedBreed);
             }
             catch
@@ -127,9 +138,9 @@
             DogBreedItem breedToDelete;
             try
             {
-                breedToDelete = await controllerContext.DogBreedItemList.FirstAsync(x => x.Id == id);
-                controllerContext.DogBreedItemList.Remove(breedToDelete);
-                await controllerContext.SaveChangesAsync();
+                breedToDelete = await dataContext.DogBreedItemList.FirstAsync(x => x.DogBreedItemId == id);
+                dataContext.DogBreedItemList.Remove(breedToDelete);
+                await dataContext.SaveChangesAsync();
                 return Ok(breedToDelete);
             }
             catch

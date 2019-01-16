@@ -9,12 +9,12 @@
     public class DogBreedItem
     {
         //Index of dogbreed in entity DB.
-        public long Id { get; set; }
+        public long DogBreedItemId { get; set; }
 
         //Name in json property
         public string BreedName { get; set; }
 
         //List of sub-breeds in dog breed
-        public ICollection<DogSubBreed> SubBreed{ get; set; }
+        public ICollection<DogSubBreed> SubBreeds{ get; set; }
     }
 }

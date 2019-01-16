@@ -16,9 +16,11 @@ namespace DogRestAPI.Models
         /// </summary>
         /// <param name="options"></param>
         public DogBreedContext(DbContextOptions<DogBreedContext> options) : base(options)
-        {
+        { 
         }
 
         public DbSet<DogBreedItem> DogBreedItemList { get; set; }
+
+        public DbSet<DogSubBreed> DogSubBreedItemList { get; set; }
     }
 }
