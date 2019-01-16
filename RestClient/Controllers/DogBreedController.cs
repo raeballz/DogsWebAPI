@@ -47,7 +47,7 @@
             controllerContext.DogBreedItemList.Add(new DogBreedItem { Id = 2, BreedName = "Hound1", SubBreed = new List<DogSubBreed>() });
 
             ///Push changes up so entity db can add a sub-breed to each DogBreed
-            controllerContext.SaveChanges();
+            controllerContext.SaveChangesAsync();
 
             ///Populate sub-breeds in current breed dataset.
             controllerContext.DogBreedItemList.First(x => x.Id == 1).SubBreed.Add(new DogSubBreed { SubBreedName = "SubBreed0" });
@@ -56,7 +56,7 @@
             controllerContext.DogBreedItemList.First(x => x.Id == 2).SubBreed.Add(new DogSubBreed { SubBreedName = "SubBreed2" });
             controllerContext.DogBreedItemList.First(x => x.Id == 2).SubBreed.Add(new DogSubBreed { SubBreedName = "SubBreed3" });
 
-            controllerContext.SaveChanges();
+            controllerContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -131,14 +131,34 @@
             throw new NotImplementedException();
         }
 
-        private void GetBreedByName()
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpGet("{breedname}")]
+        //public async Task<ActionResult<DogBreedItem>> GetBreedByName(string breedName)
+        //{
+        //    DogBreedItem requestedBreed = await controllerContext.DogBreedItemList.FirstAsync(x => x.BreedName == breedName);
 
-        private void GetBreedByID()
+        //    if (requestedBreed == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    else
+        //    {
+        //        return Ok(requestedBreed);
+        //    }
+        //}
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DogBreedItem>> GetBreedByID(long id)
         {
-            throw new NotImplementedException();
+            DogBreedItem requestedBreed = await controllerContext.DogBreedItemList.FirstAsync(x => x.Id == id);
+
+            if (requestedBreed == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(requestedBreed);
+            }
         }
     }
 }
