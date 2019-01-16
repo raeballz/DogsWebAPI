@@ -63,7 +63,7 @@
         /// Method fetches all breeds currently stored within the context. 
         /// Performed async, due to it being a web call.
         /// </summary>
-        /// <returns>List of all breeds within the context.</returns>
+        /// <returns>200 + List of all breeds within the context or 204 if list is empty</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DogBreedItem>>> GetAllBreeds()
         {
@@ -80,7 +80,7 @@
         /// <summary>
         /// Method searches for breed by name, then removes it
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="breedName">Name of the breed we wish to delete</param>
         /// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
         [HttpDelete("{breedname}")]
         public async Task<ActionResult<DogBreedItem>> DeleteBreedByName(string breedName)
@@ -99,6 +99,11 @@
             }
         }
 
+        /// <summary>
+        /// HTTP Method to delete breed via ID
+        /// </summary>
+        /// <param name="id">Unique Id of Dog Breed</param>
+        /// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<DogBreedItem>> DeleteBreedByID(long id)
         {
