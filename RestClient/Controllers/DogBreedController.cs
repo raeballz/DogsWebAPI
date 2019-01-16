@@ -43,15 +43,15 @@
         {
             ///TODO: If not populated, read in Json Payload
             ///But just create these objects for now.
-            var hound0 = controllerContext.DogBreedItemList.Add( new DogBreedItem { Id = 1, BreedName = "Hound0", SubBreed = new List<DogSubBreed>()});
-            var hound1 = controllerContext.DogBreedItemList.Add( new DogBreedItem { Id = 2, BreedName = "Hound1", SubBreed = new List<DogSubBreed>()});
+            controllerContext.DogBreedItemList.Add(new DogBreedItem { Id = 1, BreedName = "Hound0", SubBreed = new List<DogSubBreed>() });
+            controllerContext.DogBreedItemList.Add(new DogBreedItem { Id = 2, BreedName = "Hound1", SubBreed = new List<DogSubBreed>() });
 
             ///Push changes up so entity db can add a sub-breed to each DogBreed
             controllerContext.SaveChanges();
 
             ///Populate sub-breeds in current breed dataset.
-            controllerContext.DogBreedItemList.First(x => x.Id == 1).SubBreed.Add (new DogSubBreed { SubBreedName = "SubBreed0"});
-            controllerContext.DogBreedItemList.First(x => x.Id == 1).SubBreed.Add (new DogSubBreed { SubBreedName = "SubBreed1" });
+            controllerContext.DogBreedItemList.First(x => x.Id == 1).SubBreed.Add(new DogSubBreed { SubBreedName = "SubBreed0" });
+            controllerContext.DogBreedItemList.First(x => x.Id == 1).SubBreed.Add(new DogSubBreed { SubBreedName = "SubBreed1" });
 
             controllerContext.DogBreedItemList.First(x => x.Id == 2).SubBreed.Add(new DogSubBreed { SubBreedName = "SubBreed2" });
             controllerContext.DogBreedItemList.First(x => x.Id == 2).SubBreed.Add(new DogSubBreed { SubBreedName = "SubBreed3" });
@@ -63,21 +63,62 @@
         /// Method fetches all breeds currently stored within the context. 
         /// Performed async, due to it being a web call.
         /// </summary>
-        /// <returns>List of all breeds within the context.</returns>
+        /// <returns>200 + List of all breeds within the context or 204 if list is empty</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DogBreedItem>>> GetAllBreeds()
         {
-            return await controllerContext.DogBreedItemList.ToListAsync();
+            List<DogBreedItem> items = await controllerContext.DogBreedItemList.ToListAsync();
+            
+            if (items.Count == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(items);
         }
 
-        private void DeleteBreedByName()
+        /// <summary>
+        /// Method searches for breed by name, then removes it
+        /// </summary>
+        /// <param name="breedName">Name of the breed we wish to delete</param>
+        /// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
+        [HttpDelete("{breedname}")]
+        public async Task<ActionResult<DogBreedItem>> DeleteBreedByName(string breedName)
         {
-            throw new NotImplementedException();
+            DogBreedItem breedToDelete = await controllerContext.DogBreedItemList.FirstAsync(x => x.BreedName == breedName);
+
+            if (breedToDelete == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                controllerContext.DogBreedItemList.Remove(breedToDelete);
+                await controllerContext.SaveChangesAsync();
+                return Ok(breedToDelete);
+            }
         }
 
-        private void DeleteBreedByID()
+        /// <summary>
+        /// HTTP Method to delete breed via ID
+        /// </summary>
+        /// <param name="id">Unique Id of Dog Breed</param>
+        /// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<DogBreedItem>> DeleteBreedByID(long id)
         {
-            throw new NotImplementedException();
+            DogBreedItem breedToDelete = await controllerContext.DogBreedItemList.FirstAsync(x => x.Id == id);
+
+            if (breedToDelete == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                controllerContext.DogBreedItemList.Remove(breedToDelete);
+                await controllerContext.SaveChangesAsync();
+                return Ok(breedToDelete);
+            }
         }
 
         private void PutBreed()
