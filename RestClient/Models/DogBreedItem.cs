@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DogRestAPI.Models
+﻿namespace DogRestAPI.Models
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// First sweep at a possible model for JSON deserialisation
+    /// Dogbreed contains a collection of subbreeds and an Id key 
+    /// to guarantee no overlaps in the database.
     /// </summary>
     public class DogBreedItem
     {
-        //Index of dog in list? Might not be needed, unique ID is probably breedName
+        //Index of dogbreed in entity DB.
         public long Id { get; set; }
 
         //Name in json property
         public string BreedName { get; set; }
 
         //List of sub-breeds in dog breed
-        public List<string> SubBreed{ get; set; }
+        public ICollection<DogSubBreed> SubBreed{ get; set; }
     }
 }
