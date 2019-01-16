@@ -11,6 +11,10 @@ namespace DogRestAPI.Models
     /// </summary>
     public class DogBreedContext : DbContext
     {
+        /// <summary>
+        /// Ctor to set up DogBreed data-base
+        /// </summary>
+        /// <param name="options"></param>
         public DogBreedContext(DbContextOptions<DogBreedContext> options) : base(options)
         {
         }

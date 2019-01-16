@@ -15,8 +15,16 @@
     [ApiController]
     public class DogBreedController : ControllerBase
     {
+        /// <summary>
+        /// Context holds data entities for rest controller perform functions on.
+        /// </summary>
         private readonly DogBreedContext controllerContext;
 
+        /// <summary>
+        /// Ctor for DogBreedController. 
+        /// Inits datacontext, and populates it if empty.
+        /// </summary>
+        /// <param name="context">Hand in data context from storage if available?</param>
         public DogBreedController(DogBreedContext context)
         {
             this.controllerContext = context;
@@ -27,6 +35,10 @@
             }
         }
 
+        /// <summary>
+        /// Called on inital run of application. 
+        /// Populates the application context via JSON file.
+        /// </summary>
         private void PopulateContextFromJson()
         {
             ///TODO: If not populated, read in Json Payload
@@ -37,6 +49,7 @@
             ///Push changes up so entity db can add a sub-breed to each DogBreed
             controllerContext.SaveChanges();
 
+            ///Populate sub-breeds in current breed dataset.
             controllerContext.DogBreedItemList.First(x => x.Id == 1).SubBreed.Add (new DogSubBreed { SubBreedName = "SubBreed0"});
             controllerContext.DogBreedItemList.First(x => x.Id == 1).SubBreed.Add (new DogSubBreed { SubBreedName = "SubBreed1" });
 
@@ -46,11 +59,15 @@
             controllerContext.SaveChanges();
         }
 
-        public IEnumerable<DogBreedItem> GetAllBreeds()
+        /// <summary>
+        /// Method fetches all breeds currently stored within the context. 
+        /// Performed async, due to it being a web call.
+        /// </summary>
+        /// <returns>List of all breeds within the context.</returns>
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<DogBreedItem>>> GetAllBreeds()
         {
-            ///still stubbed
-            throw new NotImplementedException();
-            return controllerContext.DogBreedItemList.ToList();
+            return await controllerContext.DogBreedItemList.ToListAsync();
         }
 
         private void DeleteBreedByName()
