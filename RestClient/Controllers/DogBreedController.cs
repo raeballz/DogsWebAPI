@@ -75,10 +75,10 @@
         /// </summary>
         /// <param name="name"></param>
         /// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
-        [HttpDelete("{BreedName}")]
-        private async Task<ActionResult<DogBreedItem>> DeleteBreedByName(string name)
+        [HttpDelete("{breedname}")]
+        public async Task<ActionResult<DogBreedItem>> DeleteBreedByName(string breedName)
         {
-            DogBreedItem breedToDelete = await controllerContext.DogBreedItemList.FindAsync(name);
+            DogBreedItem breedToDelete = await controllerContext.DogBreedItemList.FirstAsync(x => x.BreedName == breedName);
 
             if (breedToDelete == null)
             {
@@ -92,9 +92,21 @@
             }
         }
 
-        private void DeleteBreedByID()
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<DogBreedItem>> DeleteBreedByID(long id)
         {
-            throw new NotImplementedException();
+            DogBreedItem breedToDelete = await controllerContext.DogBreedItemList.FirstAsync(x => x.Id == id);
+
+            if (breedToDelete == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                controllerContext.DogBreedItemList.Remove(breedToDelete);
+                await controllerContext.SaveChangesAsync();
+                return Ok(breedToDelete);
+            }
         }
 
         private void PutBreed()
