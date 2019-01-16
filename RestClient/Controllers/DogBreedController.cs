@@ -67,7 +67,14 @@
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DogBreedItem>>> GetAllBreeds()
         {
-            return await controllerContext.DogBreedItemList.ToListAsync();
+            List<DogBreedItem> items = await controllerContext.DogBreedItemList.ToListAsync();
+            
+            if (items.Count == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(items);
         }
 
         /// <summary>
@@ -88,7 +95,7 @@
             {
                 controllerContext.DogBreedItemList.Remove(breedToDelete);
                 await controllerContext.SaveChangesAsync();
-                return breedToDelete;
+                return Ok(breedToDelete);
             }
         }
 
