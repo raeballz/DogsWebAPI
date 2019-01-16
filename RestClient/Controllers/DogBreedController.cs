@@ -59,6 +59,7 @@
             controllerContext.SaveChangesAsync();
         }
 
+        #region HTTPGet
         /// <summary>
         /// Method fetches all breeds currently stored within the context. 
         /// Performed async, due to it being a web call.
@@ -78,6 +79,29 @@
         }
 
         /// <summary>
+        /// Function to get the breed via it's identifying number.
+        /// GET /api/dogbreed/{param}
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>200 + requested breed or 404 not found.</returns>
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DogBreedItem>> GetBreedByID(long id)
+        {
+            DogBreedItem requestedBreed;
+            try
+            {
+                requestedBreed = await controllerContext.DogBreedItemList.FirstAsync(x => x.Id == id);
+                return Ok(requestedBreed);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+        #endregion
+
+        #region HTTPDelete
+        /// <summary>
         /// Method searches for breed by name, then removes it
         /// </summary>
         /// <param name="breedName">Name of the breed we wish to delete</param>
@@ -85,17 +109,17 @@
         [HttpDelete("{breedname}")]
         public async Task<ActionResult<DogBreedItem>> DeleteBreedByName(string breedName)
         {
-            DogBreedItem breedToDelete = await controllerContext.DogBreedItemList.FirstAsync(x => x.BreedName == breedName);
-
-            if (breedToDelete == null)
+            DogBreedItem breedToDelete;
+            try
             {
-                return NotFound();
-            }
-            else
-            {
+                breedToDelete = await controllerContext.DogBreedItemList.FirstAsync(x => x.BreedName == breedName);
                 controllerContext.DogBreedItemList.Remove(breedToDelete);
                 await controllerContext.SaveChangesAsync();
                 return Ok(breedToDelete);
+            }
+            catch
+            {
+                return NotFound();
             }
         }
 
@@ -107,19 +131,20 @@
         [HttpDelete("{id}")]
         public async Task<ActionResult<DogBreedItem>> DeleteBreedByID(long id)
         {
-            DogBreedItem breedToDelete = await controllerContext.DogBreedItemList.FirstAsync(x => x.Id == id);
-
-            if (breedToDelete == null)
+            DogBreedItem breedToDelete;
+            try
             {
-                return NotFound();
-            }
-            else
-            {
+                breedToDelete = await controllerContext.DogBreedItemList.FirstAsync(x => x.Id == id);
                 controllerContext.DogBreedItemList.Remove(breedToDelete);
                 await controllerContext.SaveChangesAsync();
                 return Ok(breedToDelete);
             }
+            catch
+            {
+                return NotFound();
+            }
         }
+        #endregion
 
         private void PutBreed()
         {
@@ -145,20 +170,5 @@
         //        return Ok(requestedBreed);
         //    }
         //}
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DogBreedItem>> GetBreedByID(long id)
-        {
-            DogBreedItem requestedBreed = await controllerContext.DogBreedItemList.FirstAsync(x => x.Id == id);
-
-            if (requestedBreed == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return Ok(requestedBreed);
-            }
-        }
     }
 }
