@@ -140,8 +140,6 @@
             try
             {
                 breedToDelete = await dataContext.DogBreedItemList.FirstAsync(breed => breed.DogBreedItemId == id);
-
-                // Select all breeds where the breed ID = 
                 subBreedsToDelete = dataContext.DogSubBreedItemList.Where(subbreed => subbreed.ParentBreedId == breedToDelete.DogBreedItemId).ToList();
                 subBreedsToDelete.ForEach(subbreed => dataContext.DogSubBreedItemList.Remove(subbreed));
                 dataContext.DogBreedItemList.Remove(breedToDelete);
