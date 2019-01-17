@@ -63,8 +63,8 @@
             subBreeds.ForEach(subBreed => dataContext.DogSubBreedItemList.Add(subBreed));
             dataContext.SaveChanges();
 
-            dataContext.DogBreedItemList.First(x => x.DogBreedItemId == 1).SubBreeds = new List<DogSubBreed>() { dataContext.DogSubBreedItemList.First(x => x.DogSubBreedId == 1), dataContext.DogSubBreedItemList.First(x => x.DogSubBreedId == 2)};
-            dataContext.DogBreedItemList.First(x => x.DogBreedItemId == 2).SubBreeds = new List<DogSubBreed>() { dataContext.DogSubBreedItemList.First(x => x.DogSubBreedId == 3), dataContext.DogSubBreedItemList.First(x => x.DogSubBreedId == 4)};
+            dataContext.DogBreedItemList.First(breed => breed.DogBreedItemId == 1).SubBreeds = new List<DogSubBreed>() { dataContext.DogSubBreedItemList.First(breed => breed.DogSubBreedId == 1), dataContext.DogSubBreedItemList.First(breed => breed.DogSubBreedId == 2)};
+            dataContext.DogBreedItemList.First(breed => breed.DogBreedItemId == 2).SubBreeds = new List<DogSubBreed>() { dataContext.DogSubBreedItemList.First(breed => breed.DogSubBreedId == 3), dataContext.DogSubBreedItemList.First(breed => breed.DogSubBreedId == 4)};
 
             ///Push changes up so entity db can add a sub-breed to each DogBreed
             dataContext.SaveChanges();
@@ -79,7 +79,7 @@
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DogBreedItem>>> GetAllBreeds()
         {
-            IEnumerable<DogBreedItem> items = dataContext.DogBreedItemList.Include(n => n.SubBreeds).AsEnumerable();
+            IEnumerable<DogBreedItem> items = dataContext.DogBreedItemList.Include(breed => breed.SubBreeds).AsEnumerable();
             
             if (items.Count() == 0)
             {
@@ -101,7 +101,7 @@
             DogBreedItem requestedBreed;
             try
             {
-                requestedBreed = await dataContext.DogBreedItemList.Include(n => n.SubBreeds).FirstAsync(x => x.DogBreedItemId == id);
+                requestedBreed = await dataContext.DogBreedItemList.Include(breed => breed.SubBreeds).FirstAsync(breed => breed.DogBreedItemId == id);
                 return Ok(requestedBreed);
             }
             catch
@@ -136,9 +136,14 @@
         public async Task<ActionResult<DogBreedItem>> DeleteBreedByID(long id)
         {
             DogBreedItem breedToDelete;
+            List<DogSubBreed> subBreedsToDelete = new List<DogSubBreed>();
             try
             {
-                breedToDelete = await dataContext.DogBreedItemList.FirstAsync(x => x.DogBreedItemId == id);
+                breedToDelete = await dataContext.DogBreedItemList.FirstAsync(breed => breed.DogBreedItemId == id);
+
+                // Select all breeds where the breed ID = 
+                subBreedsToDelete = dataContext.DogSubBreedItemList.Where(subbreed => subbreed.ParentBreedId == breedToDelete.DogBreedItemId).ToList();
+                subBreedsToDelete.ForEach(subbreed => dataContext.DogSubBreedItemList.Remove(subbreed));
                 dataContext.DogBreedItemList.Remove(breedToDelete);
                 await dataContext.SaveChangesAsync();
                 return Ok(breedToDelete);
