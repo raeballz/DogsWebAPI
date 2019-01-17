@@ -101,7 +101,7 @@
             DogBreedItem requestedBreed;
             try
             {
-                requestedBreed = await dataContext.DogBreedItemList.FirstAsync(x => x.DogBreedItemId == id);
+                requestedBreed = await dataContext.DogBreedItemList.Include(n => n.SubBreeds).FirstAsync(x => x.DogBreedItemId == id);
                 return Ok(requestedBreed);
             }
             catch
@@ -173,7 +173,6 @@
         #endregion
 
         #region HTTPPost
-
         /// <summary>
         /// HTTPPost for pushing new dogbreed objects up.
         /// </summary>
@@ -190,9 +189,8 @@
             }
             catch
             {
-                return UnprocessableEntity();
+                return UnprocessableEntity(); //TODO: Check this is the correct errorcode to respond with.
             }
-
 
             ///TODO REIMPLEMENT THIS MORE COMPLEX LOGIC
             ///Save the Parent Breed so we can retreive it's entity ID
@@ -207,13 +205,15 @@
 
             //await dataContext.SaveChangesAsync();
         }
+
         #endregion
 
+        #region HTTPPut
         private void PutBreed()
         {
             throw new NotImplementedException();
         }
-
+        #endregion
 
     }
 }
