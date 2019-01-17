@@ -109,21 +109,6 @@
                 return NotFound();
             }
         }
-
-        //[HttpGet("{breedname}")]
-        //public async Task<ActionResult<DogBreedItem>> GetBreedByName(string breedName)
-        //{
-        //    DogBreedItem requestedBreed = await controllerContext.DogBreedItemList.FirstAsync(x => x.BreedName == breedName);
-
-        //    if (requestedBreed == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    else
-        //    {
-        //        return Ok(requestedBreed);
-        //    }
-        //}
         #endregion
 
         #region HTTPDelete
@@ -151,28 +136,6 @@
                 return NotFound();
             }
         }
-
-        ///// <summary>
-        ///// Method searches for breed by name, then removes it
-        ///// </summary>
-        ///// <param name="breedName">Name of the breed we wish to delete</param>
-        ///// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
-        //[HttpDelete("{breedname}")]
-        //public async Task<ActionResult<DogBreedItem>> DeleteBreedByName(string breedName)
-        //{
-        //    DogBreedItem breedToDelete;
-        //    try
-        //    {
-        //        breedToDelete = await controllerContext.DogBreedItemList.FirstAsync(x => x.BreedName == breedName);
-        //        controllerContext.DogBreedItemList.Remove(breedToDelete);
-        //        await controllerContext.SaveChangesAsync();
-        //        return Ok(breedToDelete);
-        //    }
-        //    catch
-        //    {
-        //        return NotFound();
-        //    }
-        //}
         #endregion
 
         #region HTTPPost
@@ -194,19 +157,6 @@
             {
                 return UnprocessableEntity(); //TODO: Check this is the correct errorcode to respond with.
             }
-
-            ///TODO REIMPLEMENT THIS MORE COMPLEX LOGIC
-            ///Save the Parent Breed so we can retreive it's entity ID
-            ////Get the new object from the database with the generated ID
-            //var dbObject = await dataContext.DogBreedItemList.FirstAsync(x => x.BreedName == dogBreed.BreedName);
-
-            ////Foreach sub breed in object handed to us, set the parent breed reference to the one we just generated
-            //dogBreed.SubBreeds.ForEach(DogSubBreed => DogSubBreed.ParentBreedId = dbObject.DogBreedItemId);
-
-            ////For each sub breed, add it to the data context sub breed list.
-            //dogBreed.SubBreeds.ForEach(DogSubBreed => dataContext.DogSubBreedItemList.Add(DogSubBreed));
-
-            //await dataContext.SaveChangesAsync();
         }
 
         #endregion
@@ -229,6 +179,5 @@
             return Ok();
         }
         #endregion
-
     }
 }
