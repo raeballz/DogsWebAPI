@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "015f0b9c-32e5-4ebb-946f-9a031e6c4edd",
+		"name": "Dog API Test",
+		"description": "Tests CRUD functions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Breeds",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Breed By Id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://localhost:44371/api/dogbreed/Hound1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44371",
+					"path": [
+						"api",
+						"dogbreed",
+						"Hound1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Breed",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dogBreedItemId\": 3,\n    \"breedName\": \"Hound3\",\n    \"subBreeds\": [\n        {\n            \"parentBreedId\": 3,\n            \"dogSubBreedId\": 7,\n            \"subBreedName\": \"Hound3.1\"\n        },\n        {\n            \"parentBreedId\": 3,\n            \"dogSubBreedId\": 8,\n            \"subBreedName\": \"Hound3.2\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44371/api/dogbreed",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44371",
+					"path": [
+						"api",
+						"dogbreed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Breed",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44371/api/dogbreed",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44371",
+					"path": [
+						"api",
+						"dogbreed"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

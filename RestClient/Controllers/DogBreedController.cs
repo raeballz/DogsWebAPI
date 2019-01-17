@@ -212,9 +212,21 @@
         #endregion
 
         #region HTTPPut
-        private void PutBreed()
+        /// <summary>
+        /// Updates an existing breed, where breed is the id.
+        /// </summary>
+        /// <param name="id">The id of the breed to update</param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        public async Task<ActionResult<DogBreedItem>> PutBreed(long id, DogBreedItem dogBreedItem)
         {
-            throw new NotImplementedException();
+            if (id != dogBreedItem.DogBreedItemId)
+            {
+                return BadRequest();
+            }
+            dataContext.Entry(dogBreedItem).State = EntityState.Modified;
+            await dataContext.SaveChangesAsync();
+            return Ok();
         }
         #endregion
 
