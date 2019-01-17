@@ -220,6 +220,12 @@
         [HttpPut("{id}")]
         public async Task<ActionResult<DogBreedItem>> PutBreed(long id, DogBreedItem dogBreedItem)
         {
+            if (id != dogBreedItem.DogBreedItemId)
+            {
+                return BadRequest();
+            }
+            dataContext.Entry(dogBreedItem).State = EntityState.Modified;
+            await dataContext.SaveChangesAsync();
             return Ok();
         }
         #endregion
