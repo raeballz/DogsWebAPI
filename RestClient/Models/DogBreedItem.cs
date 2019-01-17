@@ -15,6 +15,6 @@
         public string BreedName { get; set; }
 
         //List of sub-breeds in dog breed
-        public ICollection<DogSubBreed> SubBreeds{ get; set; }
+        public List<DogSubBreed> SubBreeds{ get; set; }
     }
 }

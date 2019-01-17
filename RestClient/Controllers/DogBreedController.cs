@@ -172,14 +172,48 @@
         //}
         #endregion
 
+        #region HTTPPost
+
+        /// <summary>
+        /// HTTPPost for pushing new dogbreed objects up.
+        /// </summary>
+        /// <param name="dogBreed">The dogbreed JSON payload</param>
+        /// <returns>200 OK if successful, or Unprocessable entity if unsaveable/unserialsable</returns>
+        [HttpPost]
+        public async Task<ActionResult<DogBreedItem>> PostBreed(DogBreedItem dogBreed)
+        {
+            try
+            {
+                dataContext.DogBreedItemList.Add(dogBreed);
+                await dataContext.SaveChangesAsync();
+                return Ok();
+            }
+            catch
+            {
+                return UnprocessableEntity();
+            }
+
+
+            ///TODO REIMPLEMENT THIS MORE COMPLEX LOGIC
+            ///Save the Parent Breed so we can retreive it's entity ID
+            ////Get the new object from the database with the generated ID
+            //var dbObject = await dataContext.DogBreedItemList.FirstAsync(x => x.BreedName == dogBreed.BreedName);
+
+            ////Foreach sub breed in object handed to us, set the parent breed reference to the one we just generated
+            //dogBreed.SubBreeds.ForEach(DogSubBreed => DogSubBreed.ParentBreedId = dbObject.DogBreedItemId);
+
+            ////For each sub breed, add it to the data context sub breed list.
+            //dogBreed.SubBreeds.ForEach(DogSubBreed => dataContext.DogSubBreedItemList.Add(DogSubBreed));
+
+            //await dataContext.SaveChangesAsync();
+        }
+        #endregion
+
         private void PutBreed()
         {
             throw new NotImplementedException();
         }
 
-        private void PostBreed()
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
