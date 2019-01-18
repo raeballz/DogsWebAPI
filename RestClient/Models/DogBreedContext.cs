@@ -19,8 +19,15 @@ namespace DogRestAPI.Models
         { 
         }
 
+        /// <summary>
+        /// Set of dog breeds in the database
+        /// </summary>
         public DbSet<DogBreedItem> DogBreedItemList { get; set; }
 
+
+        /// <summary>
+        /// Set of dog breeds in the item list
+        /// </summary>
         public DbSet<DogSubBreed> DogSubBreedItemList { get; set; }
     }
 }
