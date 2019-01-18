@@ -39,51 +39,16 @@
             {
                 foreach (string breedKey in jsonDictionary.Keys)
                 {
-                    PopulateNewDogBreed(breedKey);
+                    DataContextHelper.PopulateDbContextWithNewDogBreed(breedKey, this.dataContext);
                 }
 
                 int breedId = 1;
                 foreach (string[] subBreeds in jsonDictionary.Values)
                 {
-                    PopulateNewDogBreedSubbreeds(subBreeds, breedId);
+                    DataContextHelper.PopulateDbContextWithNewDogBreedSubbreeds(subBreeds, breedId, this.dataContext);
                     breedId++;
                 }                
             }
-        }
-
-        /// <summary>
-        /// Creates all sub-breeds and saves them in the 
-        /// </summary>
-        /// <param name="dogSubbreedArray"></param>
-        /// <param name="parentBreedId"></param>
-        private void PopulateNewDogBreedSubbreeds(string[] dogSubbreedArray, long parentBreedId)
-        {
-            DogBreedItem parentBreed = dataContext.DogBreedItemList.Find(parentBreedId);
-            
-            foreach (string subBreedName in dogSubbreedArray)
-            {
-                DogSubBreed subBreed = new DogSubBreed() { ParentBreedId = parentBreedId, SubBreedName = subBreedName };
-                dataContext.DogSubBreedItemList.Add(subBreed);
-            }
-
-            //Now save DB context so that we can retreive them with a generated ID.
-            dataContext.SaveChanges();
-
-            //Build a list of all sub breeds where the sub-subbreed's parent ID is the parent Id we're looking for.
-            List<DogSubBreed> subBreeds = dataContext.DogSubBreedItemList.Where(x => x.ParentBreedId == parentBreedId).ToList();
-
-            //set it in the context using our reference
-            dataContext.DogBreedItemList.Find(parentBreedId).SubBreeds = subBreeds;
-            dataContext.SaveChanges();
-        }
-
-        private void PopulateNewDogBreed(string breedName)
-        {
-            DogBreedItem dogBreed = new DogBreedItem();
-            dogBreed.BreedName = breedName;
-
-            dataContext.DogBreedItemList.Add(dogBreed);
-            dataContext.SaveChanges();
         }
 
         #region HTTPGet
