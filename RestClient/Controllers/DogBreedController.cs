@@ -33,10 +33,9 @@
         {
             this.dataContext = context;
 
-            Dictionary<string, string[]> jsonDictionary = JsonHelper.PopulateDictionary();
-
             if (this.dataContext.DogBreedItemList.Count() == 0)
             {
+                Dictionary<string, string[]> jsonDictionary = JsonHelper.PopulateDictionaryFromJsonFile();
                 foreach (string breedKey in jsonDictionary.Keys)
                 {
                     DataContextHelper.PopulateDbContextWithNewDogBreed(breedKey, this.dataContext);

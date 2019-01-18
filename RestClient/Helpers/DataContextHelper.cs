@@ -6,13 +6,33 @@ using System.Threading.Tasks;
 
 namespace DogRestAPI.Helpers
 {
+    /// <summary>
+    /// Used to help manage the adding of new items to the database
+    /// </summary>
     public static class DataContextHelper
     {
+        /// <summary>
+        /// Adds the breed to the context, without sub breeds. 
+        /// </summary>
+        /// <param name="breedName">Name of breed we are adding.</param>
+        /// <param name="dataContext">Data context we are adding the breed to</param>
+        public static void PopulateDbContextWithNewDogBreed(string breedName, DogBreedContext dataContext)
+        {
+            DogBreedItem dogBreed = new DogBreedItem
+            {
+                BreedName = breedName
+            };
+
+            dataContext.DogBreedItemList.Add(dogBreed);
+            dataContext.SaveChanges();
+        }
+
         /// <summary>
         /// Creates all sub-breeds and saves them in the context handed to it.
         /// </summary>
         /// <param name="dogSubbreedArray"></param>
-        /// <param name="parentBreedId"></param>
+        /// <param name="parentBreedId">Id of the breed this sub breed belongs to</param>
+        /// <param name="dataContext">Data context we are adding the dog to</param>
         public static void PopulateDbContextWithNewDogBreedSubbreeds(string[] dogSubbreedArray, long parentBreedId, DogBreedContext dataContext)
         {
             DogBreedItem parentBreed = dataContext.DogBreedItemList.Find(parentBreedId);
@@ -31,20 +51,6 @@ namespace DogRestAPI.Helpers
 
             //set it in the context using our reference
             dataContext.DogBreedItemList.Find(parentBreedId).SubBreeds = subBreeds;
-            dataContext.SaveChanges();
-        }
-
-        /// <summary>
-        /// Adds the breed to the context, without sub breeds. 
-        /// </summary>
-        /// <param name="breedName"></param>
-        /// <param name="dataContext"></param>
-        public static void PopulateDbContextWithNewDogBreed(string breedName, DogBreedContext dataContext)
-        {
-            DogBreedItem dogBreed = new DogBreedItem();
-            dogBreed.BreedName = breedName;
-
-            dataContext.DogBreedItemList.Add(dogBreed);
             dataContext.SaveChanges();
         }
     }

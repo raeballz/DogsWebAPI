@@ -20,9 +20,9 @@ namespace DogRestAPI.Helpers
         /// Migrates data from human readable json to 
         /// a database structure in EntityFramework
         /// </summary>
-        public static Dictionary<string, string[]> PopulateDictionary()
+        public static Dictionary<string, string[]> PopulateDictionaryFromJsonFile(string jsonFileName = "dogs.json")
         {
-            using (StreamReader reader = new StreamReader("dogs.json")) //Only have stream reader open whilst handling it's variables.
+            using (StreamReader reader = new StreamReader(jsonFileName)) //Only have stream reader open whilst handling it's variables.
             {
                 string json = reader.ReadToEnd();
 
@@ -42,7 +42,7 @@ namespace DogRestAPI.Helpers
         /// </summary>
         /// <param name="jsonObject"></param>
         /// <returns></returns>
-        private static Dictionary<string, string[]> PopulateDictionary(dynamic jsonObject)
+        private static  Dictionary<string, string[]> PopulateDictionary(dynamic jsonObject)
         {
             Dictionary<string, string[]> jsonDictionary = new Dictionary<string, string[]>();
 
