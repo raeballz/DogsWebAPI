@@ -1,11 +1,9 @@
-﻿using DogRestAPI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DogRestAPI.Helpers
+﻿namespace DogRestAPI.Helpers
 {
+    using DogRestAPI.Models;
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
     /// Used to help manage the adding of new items to the database
     /// </summary>

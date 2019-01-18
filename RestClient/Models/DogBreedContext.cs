@@ -1,11 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DogRestAPI.Models
+﻿namespace DogRestAPI.Models
 {
+    using Microsoft.EntityFrameworkCore;
+
     /// <summary>
     /// Controls the database context via Entity Framework
     /// </summary>

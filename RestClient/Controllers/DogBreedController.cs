@@ -1,16 +1,12 @@
 ﻿namespace DogRestAPI.Controllers
 {
-    using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using DogRestAPI.Helpers;
     using DogRestAPI.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Main logic for REST API functions.

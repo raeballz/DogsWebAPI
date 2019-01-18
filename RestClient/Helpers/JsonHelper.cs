@@ -1,13 +1,9 @@
-﻿using DogRestAPI.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DogRestAPI.Helpers
+﻿namespace DogRestAPI.Helpers
 {
+    using Newtonsoft.Json;
+    using System.Collections.Generic;
+    using System.IO;
+
     /// <summary>
     /// Keep json functionality seperate
     /// Static for easy referece
