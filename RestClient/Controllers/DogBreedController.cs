@@ -129,7 +129,7 @@
                 //Validate breed details
                 if (dataContext.DogBreedItemList.Any( x => x.BreedName == dogBreed.BreedName))
                 {                    
-                    return UnprocessableEntity($"\"Error\" :: \"Breed Name {dogBreed.BreedName} already exists.\"");
+                    return UnprocessableEntity($"\"Error\" : \"Breed Name {dogBreed.BreedName} already exists.\"");
                 }
 
                 if (dogBreed.BreedName == "" || dogBreed.BreedName == null)
@@ -152,7 +152,6 @@
 
                 //Save dog breed to context when we've verified it has a unique name
                 dataContext.DogBreedItemList.Add(dogBreed);
-
                 await dataContext.SaveChangesAsync();
 
                 //If we've got sub-breeds
@@ -165,15 +164,14 @@
                 }
 
                 //Return object we successfully built
-                return Ok(dataContext.DogBreedItemList.Find(dogBreed.DogBreedItemId));
+                return Created($"api/dogbreed/{dogBreed.DogBreedItemId}",dataContext.DogBreedItemList.Find(dogBreed.DogBreedItemId));
             }
             catch
             {
                 dataContext.DogBreedItemList.Remove(dogBreed);
                 await dataContext.SaveChangesAsync();
                 return UnprocessableEntity("Could not process. Check your formatting for missing parenthesis and list seperators.");
-            }
-                
+            }                
         }
 
         #endregion
