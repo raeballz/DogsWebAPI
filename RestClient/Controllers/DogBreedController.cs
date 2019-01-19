@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Threading.Tasks;
     using DogRestAPI.Helpers;
     using DogRestAPI.Models;
@@ -56,14 +57,17 @@
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DogBreedItem>>> GetAllBreeds()
         {
-            IEnumerable<DogBreedItem> items = dataContext.DogBreedItemList.Include(breed => breed.SubBreeds).AsEnumerable();
-            
-            if (items.Count() == 0)
+            using (WebClient client = new WebClient())
             {
-                return NoContent();
-            }
+                IEnumerable<DogBreedItem> items = dataContext.DogBreedItemList.Include(breed => breed.SubBreeds).AsEnumerable();
+                
+                if (items.Count() == 0)
+                {
+                    return NoContent();
+                }
 
-            return Ok(items);
+                return Ok(items);
+            }
         }
 
         /// <summary>
