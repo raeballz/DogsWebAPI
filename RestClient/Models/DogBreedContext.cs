@@ -1,11 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DogRestAPI.Models
+﻿namespace DogRestAPI.Models
 {
+    using Microsoft.EntityFrameworkCore;
+
     /// <summary>
     /// Controls the database context via Entity Framework
     /// </summary>
@@ -19,8 +15,15 @@ namespace DogRestAPI.Models
         { 
         }
 
+        /// <summary>
+        /// Set of dog breeds in the database
+        /// </summary>
         public DbSet<DogBreedItem> DogBreedItemList { get; set; }
 
+
+        /// <summary>
+        /// Set of dog breeds in the item list
+        /// </summary>
         public DbSet<DogSubBreed> DogSubBreedItemList { get; set; }
     }
 }
