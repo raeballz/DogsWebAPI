@@ -318,7 +318,7 @@
 			"response": []
 		},
 		{
-			"name": "POST Breed, Null Value",
+			"name": "POST Breed, Null Breed Name Value",
 			"event": [
 				{
 					"listen": "test",
@@ -344,6 +344,50 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"breedName\": null\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44371/api/dogbreed/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44371",
+					"path": [
+						"api",
+						"dogbreed",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Breed, Null Sub-breed Value",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cdffab2c-973a-4214-8afc-9a72825d49de",
+						"exec": [
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"breedName\": \"POST; NullSubBreed\",\n\t\"subBreeds\": \n\t[\n\t    {\n\t    \t\"subBreedName\":null\n\t    }\n\t]\n}"
 				},
 				"url": {
 					"raw": "https://localhost:44371/api/dogbreed/",

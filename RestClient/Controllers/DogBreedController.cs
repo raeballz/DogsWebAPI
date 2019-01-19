@@ -135,13 +135,30 @@
                 if (dogBreed.BreedName == "" || dogBreed.BreedName == null)
                 {
                     return UnprocessableEntity("\"Error\" : \"Please provide a 'breedName' property, and non-empty string value.\"");
-                }            
+                }
+
+                bool emptySubBreedList = false;
 
                 //Validate subbreed details
                 ///If we have nothing in the payload for subbreeds, create an empty list for it.
                 if (dogBreed.SubBreeds == null)
                 {
                     dogBreed.SubBreeds = new List<DogSubBreed>();
+                    emptySubBreedList = true;
+                }
+
+                if (!emptySubBreedList)
+                {
+                    if (dogBreed.SubBreeds.Count != 0)
+                    {
+                        foreach(var x in dogBreed.SubBreeds )
+                        {
+                            if (x.SubBreedName == "" || x.SubBreedName == null)
+                            {
+                                return UnprocessableEntity("\"Error\" : \"Please provide a 'subBreedName' property on each sub-breed, and non-empty string value.\"");
+                            }
+                        }
+                    }
                 }
 
                 var hashSet1 = new HashSet<string>();
