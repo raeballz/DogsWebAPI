@@ -45,6 +45,24 @@
 		},
 		{
 			"name": "POST Breed, No Array.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3973de25-fab1-4277-b263-4d09e33e64c9",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -55,7 +73,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"breedName\": \"New Dog\"\n}"
+					"raw": "{\n    \"breedName\": \"POST; No Array\"\n}"
 				},
 				"url": {
 					"raw": "https://localhost:44371/api/dogbreed/",
@@ -75,6 +93,24 @@
 		},
 		{
 			"name": "POST Breed, Empty Array",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "210d9388-fca8-413e-8c3a-9b0d8dd92ff2",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -85,7 +121,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"breedName\": \"New Dog\",\n\t\"subBreeds\": []\n}"
+					"raw": "{\n    \"breedName\": \"POST; Empty Array\",\n\t\"subBreeds\": []\n}"
 				},
 				"url": {
 					"raw": "https://localhost:44371/api/dogbreed/",
@@ -105,6 +141,20 @@
 		},
 		{
 			"name": "POST Breed, Array, Single Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "268319c8-0d7e-445f-bf49-1e23f04f24fb",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -115,7 +165,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"breedName\": \"New Dog\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"staffordshire\"\n        }\n    ]\n}"
+					"raw": "{\n    \"breedName\": \"POST; Single Sub-breed\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"staffordshire\"\n        }\n    ]\n}"
 				},
 				"url": {
 					"raw": "https://localhost:44371/api/dogbreed/",
@@ -135,6 +185,20 @@
 		},
 		{
 			"name": "POST Breed, Array, Duplicate Entries",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1cd56477-8aca-4698-b76c-d0fb4c43efec",
+						"exec": [
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -145,7 +209,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"breedName\": \"New Dog\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        },\n        {\n            \"subBreedName\": \"Sub Breed 2\"\n        }\n    ]\n}"
+					"raw": "{\n    \"breedName\": \"POST;Dupe Sub-breeds\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        },\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        }\n    ]\n}"
 				},
 				"url": {
 					"raw": "https://localhost:44371/api/dogbreed/",
@@ -165,6 +229,22 @@
 		},
 		{
 			"name": "POST Breed, Array, Multiple Entries",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0512b14a-0891-41fe-94aa-4fcdefd3e81e",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -175,7 +255,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"breedName\": \"Newafa Dog\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        },\n        {\n            \"subBreedName\": \"Sub Breed 2\"\n        }\n    ]\n}"
+					"raw": "{\n    \"breedName\": \"POST;Multiple Valid Sub-breeds\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        },\n        {\n            \"subBreedName\": \"Sub Breed 2\"\n        }\n    ]\n}"
 				},
 				"url": {
 					"raw": "https://localhost:44371/api/dogbreed/",
@@ -195,6 +275,20 @@
 		},
 		{
 			"name": "POST Breed, No name value",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ebc1c754-64be-4b0f-961d-421a198757b7",
+						"exec": [
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -225,6 +319,20 @@
 		},
 		{
 			"name": "POST Breed, Null Value",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cdffab2c-973a-4214-8afc-9a72825d49de",
+						"exec": [
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
