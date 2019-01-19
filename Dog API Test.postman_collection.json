@@ -44,7 +44,7 @@
 			"response": []
 		},
 		{
-			"name": "POST Breed",
+			"name": "POST Breed, No Array.",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -55,10 +55,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"dogBreedItemId\": 3,\n    \"breedName\": \"Hound3\",\n    \"subBreeds\": [\n        {\n            \"parentBreedId\": 3,\n            \"dogSubBreedId\": 7,\n            \"subBreedName\": \"Hound3.1\"\n        },\n        {\n            \"parentBreedId\": 3,\n            \"dogSubBreedId\": 8,\n            \"subBreedName\": \"Hound3.2\"\n        }\n    ]\n}"
+					"raw": "{\n    \"breedName\": \"New Dog\"\n}"
 				},
 				"url": {
-					"raw": "https://localhost:44371/api/dogbreed",
+					"raw": "https://localhost:44371/api/dogbreed/",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -66,7 +66,188 @@
 					"port": "44371",
 					"path": [
 						"api",
-						"dogbreed"
+						"dogbreed",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Breed, Empty Array",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"breedName\": \"New Dog\",\n\t\"subBreeds\": []\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44371/api/dogbreed/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44371",
+					"path": [
+						"api",
+						"dogbreed",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Breed, Array, Single Entry",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"breedName\": \"New Dog\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"staffordshire\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44371/api/dogbreed/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44371",
+					"path": [
+						"api",
+						"dogbreed",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Breed, Array, Duplicate Entries",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"breedName\": \"New Dog\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        },\n        {\n            \"subBreedName\": \"Sub Breed 2\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44371/api/dogbreed/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44371",
+					"path": [
+						"api",
+						"dogbreed",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Breed, Array, Multiple Entries",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"breedName\": \"Newafa Dog\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        },\n        {\n            \"subBreedName\": \"Sub Breed 2\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44371/api/dogbreed/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44371",
+					"path": [
+						"api",
+						"dogbreed",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Breed, No name value",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"breedName\": \"\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44371/api/dogbreed/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44371",
+					"path": [
+						"api",
+						"dogbreed",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Breed, Null Value",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"breedName\": null\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44371/api/dogbreed/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44371",
+					"path": [
+						"api",
+						"dogbreed",
+						""
 					]
 				}
 			},
@@ -76,13 +257,20 @@
 			"name": "PUT Breed",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\n    \"dogBreedItemId\": null,\n    \"breedName\": \"bullterrier\",\n    \"subBreeds\": [\n        {\n            \"parentBreedId\": 15,\n            \"dogSubBreedId\": 3,\n            \"subBreedName\": \"banana\"\n        }\n    ]\n}"
 				},
 				"url": {
-					"raw": "https://localhost:44371/api/dogbreed",
+					"raw": "https://localhost:44371/api/dogbreed/15",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -90,7 +278,8 @@
 					"port": "44371",
 					"path": [
 						"api",
-						"dogbreed"
+						"dogbreed",
+						"15"
 					]
 				}
 			},
