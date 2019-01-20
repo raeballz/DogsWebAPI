@@ -23,11 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\components\FetchData.js" />
+    <None Remove="ClientApp\src\components\DogListTableComponent.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\components\FetchData.js" />
+    <TypeScriptCompile Include="ClientApp\src\components\DogListTableComponent\DogListTableComponent.js" />
   </ItemGroup>
 
   <ItemGroup>
