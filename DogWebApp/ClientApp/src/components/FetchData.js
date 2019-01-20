@@ -8,7 +8,6 @@ export class FetchData extends Component {
         this.state = {
             dogBreeds: []
         };
-        this.getJson();
     }
 
     static renderForecastsTable(dogBreeds) {

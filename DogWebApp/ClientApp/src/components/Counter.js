@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+//github.com/mac-s-g/react-json-view
 import ReactJson from 'react-json-view'
 
 export class Counter extends Component {
@@ -7,13 +9,16 @@ export class Counter extends Component {
     constructor(props) {
         super(props);
         this.state = { currentCount: 0, jsonPayload: this.populateJsonFromUrl()}
-        this.incrementCounter = this.incrementCounter.bind(this);
     }
 
-    incrementCounter() {
-        this.setState({
-            currentCount: this.state.currentCount + 1
-        });
+    regenerateDatabase(item, url) {
+        return fetch('https://raedogrestapi.azurewebsites.net/api/dogbreed/-1', {
+            method: 'delete'
+        }).then(response =>
+            response.json().then(json => {
+                return json;
+            })
+        )
     }
 
     render() {
@@ -21,13 +26,13 @@ export class Counter extends Component {
             <div>
                 <h1>Json Viewer</h1>
 
-                <p>Veiw the raw json in a nice format.</p>
-
-                <ReactJson src={this.state.jsonPayload} />
+                <p>View the raw json in a nice format.</p>
 
                 <p>Current count: <strong>{this.state.currentCount}</strong></p>
 
-                <button onClick={this.incrementCounter}>Increment</button>
+                <button onClick={this.regenerateDatabase}>Regenerate Database</button>
+
+                <ReactJson src={this.state.jsonPayload} />
             </div>
         );
     }

@@ -31,7 +31,7 @@ class App extends Component {
   }
 
   populateJsonFromUrl = async() => {
-    var url = 'https://localhost:44371/api/dogbreed';
+    var url = 'https://raedogrestapi.azurewebsites.net/api/dogbreed';
 
     fetch(url)
     .then((response) => response.json())
