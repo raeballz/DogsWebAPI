@@ -6,11 +6,13 @@ export class FetchData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dogBreeds: []
+            dogBreeds: [],
+            loading : true,
         };
     }
 
     static renderForecastsTable(dogBreeds) {
+        this.getJson;
         return (
             <table className='table'>
                 <thead>
@@ -25,7 +27,8 @@ export class FetchData extends Component {
                     {dogBreeds.map(dogBreed =>
                         <tr key={dogBreed.dogBreedItemId}>
                             <td>{dogBreed.breedName}</td>
-                            <td>{dogBreed.subBreeds}</td>
+
+                            
                         </tr>
                     )}
                 </tbody>
@@ -33,7 +36,17 @@ export class FetchData extends Component {
         );
     }
 
+    componentDidMount() {
+
+        var url = 'https://raedogrestapi.azurewebsites.net/api/dogbreed';
+        fetch(url)
+            .then((response) => response.json())
+            .then(x => this.setState({ dogBreeds: x }))
+        this.setState({loading: false})
+    }
+
     render() {
+        
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
             : FetchData.renderForecastsTable(this.state.dogBreeds);
@@ -45,15 +58,5 @@ export class FetchData extends Component {
                 {contents}
             </div>
         );
-    }
-
-    getJson() {
-        fetch('https://raedogrestapi.azurewebsites.net/api/dogbreed')
-            .then(function (response) {
-                this.state.setState().dogBreeds = response.json();
-            })
-            .then(function (myJson) {
-                console.log(JSON.stringify(myJson));
-            });
     }
 }
