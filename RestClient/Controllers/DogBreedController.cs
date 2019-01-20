@@ -39,7 +39,7 @@
                     DataContextHelper.PopulateDbContextWithNewDogBreed(breedKey, this.dataContext);
                 }
 
-                int breedId = 1;
+                long breedId = dataContext.DogBreedItemList.Min(x => x.DogBreedItemId);
                 foreach (string[] subBreeds in jsonDictionary.Values)
                 {
                     DataContextHelper.PopulateDbContextWithNewDogBreedSubbreeds(subBreeds, breedId, this.dataContext);
@@ -101,6 +101,11 @@
         [HttpDelete("{id}")]
         public async Task<ActionResult<DogBreedItem>> DeleteBreedByID(long id)
         {
+            if (id == -1)
+            {
+                await DeleteAllEntries();
+            }
+
             DogBreedItem breedToDelete;
             List<DogSubBreed> subBreedsToDelete = new List<DogSubBreed>();
             try
@@ -117,6 +122,32 @@
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// HTTP Method to delete breed via ID
+        /// </summary>
+        /// <param name="id">Unique Id of Dog Breed</param>
+        /// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
+        [HttpDelete]
+        public async Task<ActionResult<DogBreedItem>> DeleteAllEntries()
+        {
+            DogBreedItem breedToDelete;
+            List<DogSubBreed> subBreedsToDelete = new List<DogSubBreed>();
+
+            long id = dataContext.DogBreedItemList.First().DogBreedItemId;
+            foreach (var breed in dataContext.DogBreedItemList)
+            {
+                breedToDelete = await dataContext.DogBreedItemList.FirstAsync(x => x.DogBreedItemId == id);
+                subBreedsToDelete = dataContext.DogSubBreedItemList.Where(subbreed => subbreed.ParentBreedId == breedToDelete.DogBreedItemId).ToList();
+                subBreedsToDelete.ForEach(subbreed => dataContext.DogSubBreedItemList.Remove(subbreed));
+                dataContext.DogBreedItemList.Remove(breedToDelete);
+                id++;
+            }
+
+            dataContext.SaveChanges();
+            return NoContent();
+        }
+        
         #endregion
 
         #region HTTPPost
