@@ -28,7 +28,7 @@ namespace DogRestAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DogBreedContext>(opt => opt.UseInMemoryDatabase("BreedList"));
-
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -43,6 +43,9 @@ namespace DogRestAPI
             {
                 app.UseHsts();
             }
+            app.UseCors(
+                options => options.WithOrigins("https://raedogwebapp.azurewebsites.net", "http://localhost:3000", "https://localhost:44340").AllowAnyMethod().AllowAnyHeader()
+            );
 
             app.UseHttpsRedirection();
             app.UseMvc();
