@@ -90,6 +90,49 @@
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{parentBreedID}/subbreed")]
+        public async Task<ActionResult<DogBreedItem>> GetBreedSubBreeds(long parentBreedID)
+        {
+            List<DogSubBreed> requestedSubBreeds;
+            try
+            {
+                requestedSubBreeds = dataContext.DogSubBreedItemList.Where(x => x.ParentBreedId == parentBreedID).ToList();
+                return Ok(requestedSubBreeds);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parentBreedID"></param>
+        /// <returns></returns>
+        [HttpGet("{parentBreedID}/subbreed/{subBreedId}")]
+        public async Task<ActionResult<DogBreedItem>> GetBreedSubBreedByID(long parentBreedID, long subBreedId)
+        {
+            DogBreedItem requestedBreed;
+            DogSubBreed requestedSubBreed; 
+            try
+            {
+                requestedBreed = await dataContext.DogBreedItemList.Include(breed => breed.SubBreeds).FirstAsync(breed => breed.DogBreedItemId == parentBreedID);
+                requestedSubBreed = requestedBreed.SubBreeds.First(x => x.DogSubBreedId == subBreedId);
+                return Ok(requestedSubBreed);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
         #endregion
 
         #region HTTPDelete
@@ -128,7 +171,7 @@
         /// </summary>
         /// <param name="id">Unique Id of Dog Breed</param>
         /// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
-        [HttpDelete("{id}/{subBreedId}")]
+        [HttpDelete("{id}/subbreed/{subBreedId}")]
         public async Task<ActionResult<DogBreedItem>> DeleteSubBreedByID(long id, long subBreedId)
         {
             DogSubBreed subBreedToDelete = new DogSubBreed();
