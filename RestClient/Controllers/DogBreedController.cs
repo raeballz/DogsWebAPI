@@ -44,7 +44,7 @@
                 {
                     DataContextHelper.PopulateDbContextWithNewDogBreedSubbreeds(subBreeds, breedId, this.dataContext);
                     breedId++;
-                }                
+                }
             }
         }
 
@@ -60,7 +60,7 @@
             using (WebClient client = new WebClient())
             {
                 IEnumerable<DogBreedItem> items = dataContext.DogBreedItemList.Include(breed => breed.SubBreeds).AsEnumerable();
-                
+
                 if (items.Count() == 0)
                 {
                     return NoContent();
@@ -120,7 +120,7 @@
         public async Task<ActionResult<DogBreedItem>> GetBreedSubBreedByID(long parentBreedID, long subBreedId)
         {
             DogBreedItem requestedBreed;
-            DogSubBreed requestedSubBreed; 
+            DogSubBreed requestedSubBreed;
             try
             {
                 requestedBreed = await dataContext.DogBreedItemList.Include(breed => breed.SubBreeds).FirstAsync(breed => breed.DogBreedItemId == parentBreedID);
@@ -132,7 +132,6 @@
                 return NotFound();
             }
         }
-
         #endregion
 
         #region HTTPDelete
@@ -227,8 +226,8 @@
             try
             {
                 //Validate breed details
-                if (dataContext.DogBreedItemList.Any( x => x.BreedName == dogBreed.BreedName))
-                {                    
+                if (dataContext.DogBreedItemList.Any(x => x.BreedName == dogBreed.BreedName))
+                {
                     return UnprocessableEntity($"\"Error\" : \"Breed Name {dogBreed.BreedName} already exists.\"");
                 }
 
@@ -251,7 +250,7 @@
                 {
                     if (dogBreed.SubBreeds.Count != 0)
                     {
-                        foreach(var x in dogBreed.SubBreeds )
+                        foreach (var x in dogBreed.SubBreeds)
                         {
                             if (x.SubBreedName == "" || x.SubBreedName == null)
                             {
@@ -275,20 +274,61 @@
                 if (dogBreed.SubBreeds.Count != 0)
                 {
                     //Set subbreed parentId to the Id that got generated when the parent was saved to the database.
-                    dogBreed = dataContext.DogBreedItemList.First( x => x.BreedName == dogBreed.BreedName);                    
+                    dogBreed = dataContext.DogBreedItemList.First(x => x.BreedName == dogBreed.BreedName);
                     dogBreed.SubBreeds.ForEach(x => x.ParentBreedId = dogBreed.DogBreedItemId);
                     await dataContext.SaveChangesAsync();
                 }
 
                 //Return object we successfully built
-                return Created($"api/dogbreed/{dogBreed.DogBreedItemId}",dataContext.DogBreedItemList.Find(dogBreed.DogBreedItemId));
+                return Created($"api/dogbreed/{dogBreed.DogBreedItemId}", dataContext.DogBreedItemList.Find(dogBreed.DogBreedItemId));
             }
             catch
             {
                 dataContext.DogBreedItemList.Remove(dogBreed);
                 await dataContext.SaveChangesAsync();
                 return UnprocessableEntity("Could not process. Check your formatting for missing parenthesis and list seperators.");
-            }                
+            }
+        }
+
+        [HttpPost("{parentBreedId}/subbreed/")]
+        public async Task<ActionResult<DogSubBreed>> PostSubBreed(long parentBreedId, long subBreedId, DogSubBreed dogSubBreed)
+        {
+            dogSubBreed.ParentBreedId = parentBreedId;
+            DogBreedItem parentBreed;
+            try
+            {
+                parentBreed = dataContext.DogBreedItemList.Include(breed => breed.SubBreeds).First(x => x.DogBreedItemId == parentBreedId);
+            }
+            catch
+            {
+                return UnprocessableEntity("\"Error\" : \"Parent breed does not exist.\"");
+            }
+
+            try
+            {
+                if (parentBreed.SubBreeds.Exists(x => x.DogSubBreedId == dogSubBreed.DogSubBreedId))
+                {
+                    return UnprocessableEntity("\"Error\" : \"A dog with that subbreed Id already exists.\"");
+                }
+
+                if (parentBreed.SubBreeds.Exists(x => x.SubBreedName == dogSubBreed.SubBreedName))
+                {
+                    return UnprocessableEntity("\"Error\" : \"A breed can not contain two sub-breeds with the same name. Same sub-breed names are fine within seperate breed objects.\"");
+                }
+
+                dataContext.DogSubBreedItemList.Add(dogSubBreed);
+                await dataContext.SaveChangesAsync();
+
+                DogSubBreed createdSubBreed = await dataContext.DogSubBreedItemList.Where(x => x.SubBreedName == dogSubBreed.SubBreedName).FirstAsync(x => x.ParentBreedId == parentBreedId);
+                dataContext.DogBreedItemList.Find(parentBreed.DogBreedItemId).SubBreeds.Add(createdSubBreed);
+                await dataContext.SaveChangesAsync();
+
+                return Created($"api/dogbreed/{parentBreedId}/subbreed/{createdSubBreed.DogSubBreedId}", createdSubBreed);
+            }            
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         #endregion
