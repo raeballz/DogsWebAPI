@@ -36,6 +36,45 @@
 			"response": []
 		},
 		{
+			"name": "Get All SubBreeds of Dog",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/api/dogbreed/76/subbreed",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"dogbreed",
+						"76",
+						"subbreed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Subbreed by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Delete Breed By Id",
 			"request": {
 				"method": "DELETE",
@@ -50,6 +89,48 @@
 						"api",
 						"dogbreed",
 						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ResetDB",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/api/dogbreed/15",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"dogbreed",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Sub Breed",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/api/dogbreed/80/subbreed/65",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"dogbreed",
+						"80",
+						"subbreed",
+						"65"
 					]
 				}
 			},
@@ -85,7 +166,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"breedName\": \"POST; No Array\"\n}"
+					"raw": "{\"breedName\":\"new breed\"}"
 				},
 				"url": {
 					"raw": "{{URL}}/api/dogbreed/",
