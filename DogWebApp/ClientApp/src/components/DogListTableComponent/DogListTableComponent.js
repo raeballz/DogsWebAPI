@@ -57,7 +57,7 @@ export class DogListTableComponent extends Component {
                                         <tbody>
                                             <tr key={subBreed.parentBreedId}>
                                                 <td><button className="addSubBreed">+</button></td>
-                                                <td><button className="removeSubBreed">-</button></td>
+                                                <td><button className={subBreed.parentBreedId} id={subBreed.dogSubBreedId} onClick={DogListTableComponent.deleteSubBreed}>-</button></td>
                                                 <td>{subBreed.subBreedName}</td>
                                             </tr>
                                         </tbody>
@@ -132,6 +132,17 @@ export class DogListTableComponent extends Component {
             .catch(error => console.error('Error:', error));
     }
 
+    static addSubBreed = (breed) => {
+        var id = breed.target.id;
+        var url = 'https://raedogrestapi.azurewebsites.net/api/dogbreed/' + id;
+        fetch(url, {
+            method: 'DELETE',
+        }).then(res => res.json())
+            .then(response => console.log('Success:', JSON.stringify(response)))
+            .then(response => this.setState({ postResponse: response }))
+            .catch(error => console.error('Error:', error));
+    }
+
     static deleteBreed = (breed) => {
         var id = breed.target.id;
         var url = 'https://raedogrestapi.azurewebsites.net/api/dogbreed/' + id;  
@@ -142,6 +153,22 @@ export class DogListTableComponent extends Component {
             .then(response => this.setState({ postResponse: response }))
             .catch(error => console.error('Error:', error));
     }
+
+
+
+    static deleteSubBreed = (subBreedRemoveButton) => {
+        var subBreedId = subBreedRemoveButton.target.id;
+        var parentBreedId = subBreedRemoveButton.target.className;
+        var URL = 'https://raedogrestapi.azurewebsites.net/api/dogbreed/' + parentBreedId + "/" + subBreedId;
+
+        fetch(URL, {
+            method: 'DELETE'
+        }).then(res => res.json())
+            .then(response => console.log('Success:', JSON.stringify(response)))
+            .then(response => this.setState({ postResponse: response }))
+            .catch(error => console.error('Error:', error));
+    }
+
 
     showModal() {
         this.setState({ showModalPopup: true });

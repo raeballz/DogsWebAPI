@@ -128,7 +128,30 @@
         /// </summary>
         /// <param name="id">Unique Id of Dog Breed</param>
         /// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
-        [HttpDelete]
+        [HttpDelete("{id}/{subBreedId}")]
+        public async Task<ActionResult<DogBreedItem>> DeleteSubBreedByID(long id, long subBreedId)
+        {
+            DogSubBreed subBreedToDelete = new DogSubBreed();
+            try
+            {
+                var parentBreed = await dataContext.DogBreedItemList.FirstAsync(breed => breed.DogBreedItemId == id);
+                subBreedToDelete = dataContext.DogSubBreedItemList.First(subbreed => subbreed.ParentBreedId == parentBreed.DogBreedItemId && subbreed.DogSubBreedId == subBreedId);
+                dataContext.DogSubBreedItemList.Remove(subBreedToDelete);
+                await dataContext.SaveChangesAsync();
+                return Ok(subBreedToDelete);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// HTTP Method to delete breed via ID
+        /// </summary>
+        /// <param name="id">Unique Id of Dog Breed</param>
+        /// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
+        [ActionName("ResetDatabase")]
         public async Task<ActionResult<DogBreedItem>> DeleteAllEntries()
         {
             DogBreedItem breedToDelete;
@@ -147,7 +170,6 @@
             dataContext.SaveChanges();
             return NoContent();
         }
-        
         #endregion
 
         #region HTTPPost
