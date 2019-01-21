@@ -28,6 +28,7 @@ export class DogListTableComponent extends Component {
         };
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
+        this.deleteBreed = this.deleteBreed.bind(this);
     }
 
     static renderForecastsTable(dogBreeds) {
@@ -46,7 +47,7 @@ export class DogListTableComponent extends Component {
                 <tbody>
                     {dogBreeds.map(dogBreed =>
                         <tr key={dogBreed.dogBreedItemId}>
-                            <td><button>-</button>
+                            <td><button onClick={breed => this.deleteBreed(dogBreed)}>-</button>
                                 <button>^</button>
                             </td>
                             <td>{dogBreed.dogBreedItemId}</td>
@@ -129,6 +130,16 @@ export class DogListTableComponent extends Component {
         }).then(res => res.json())
             .then(response => console.log('Success:', JSON.stringify(response)))
             .then(response => this.setState({ postResponse : response }))
+            .catch(error => console.error('Error:', error));
+    }
+
+    deleteBreed = breed => {
+        var url = 'https://raedogrestapi.azurewebsites.net/api/dogbreed/' + breed;  
+        fetch(url, {
+            method: 'DELETE',
+        }).then(res => res.json())
+            .then(response => console.log('Success:', JSON.stringify(response)))
+            .then(response => this.setState({ postResponse: response }))
             .catch(error => console.error('Error:', error));
     }
 
