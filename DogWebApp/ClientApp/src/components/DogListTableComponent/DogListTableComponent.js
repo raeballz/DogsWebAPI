@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import './DogListTableComponent.css';
+import { Glyphicon, Button, Table} from 'react-bootstrap';
+
 
 const Modal = ({ handleClose, show, children }) => {
     const showHideClassName = show ? "modal display-block" : "modal display-none";
@@ -8,8 +10,12 @@ const Modal = ({ handleClose, show, children }) => {
     return (
         <div className={showHideClassName}>
             <section className="modal-main">
+                <Button bsSize="small"
+                        className="closeModal"
+                        onClick={handleClose} >
+                    <Glyphicon glyph='glyphicon glyphicon-remove'/> Close
+                </Button>    
                 {children}
-                <button onClick={handleClose}>close</button>
             </section>
         </div>
     );
@@ -39,11 +45,11 @@ export class DogListTableComponent extends Component {
 
     renderForecastsTable(dogBreeds) {
         return (
-            <table className='table'>
+            <Table striped bordered hover responsive className='table'>
                 <thead>
                     <tr>
                         <th>
-
+                            <Button block bsStyle="info" onClick={this.showModal}>+ Add Breed </Button>
                         </th>
                         <th>Dog Breed Id</th>
                         <th>Dog Breed</th>
@@ -53,27 +59,47 @@ export class DogListTableComponent extends Component {
                 <tbody>
                     {dogBreeds.map(dogBreed =>
                         <tr key={dogBreed.dogBreedItemId}>
-                            <td><button className="DeleteBreedBtn" id={dogBreed.dogBreedItemId} onClick={this.deleteBreed}>-</button>
+                            <td onClick={this.deleteBreed} id={dogBreed.dogBreedItemId}>
+                                <Button deleteBreedButton bsStyle="error" block bsSize="xsmall">
+                                    <Glyphicon glyph="glyphicon glyphicon-remove" size="small" />
+                                </Button>
                             </td>
                             <td>{dogBreed.dogBreedItemId}</td>
                             <td>{dogBreed.breedName}</td>
                             <td>
-                                <button className="SubBreedAddBtn" id={dogBreed.dogBreedItemId} onClick={this.showSubBreedModal} handleClose={this.hideSubBreedModal}>+ Sub Breed</button>
+                                <Button className="SubBreedAddBtn"
+                                        id={dogBreed.dogBreedItemId}
+                                        onClick={this.showSubBreedModal}
+                                        handleClose={this.hideSubBreedModal}
+                                        bsStyle="info"
+                                        block
+                                        >+ Add Sub Breed</Button>
                                 {dogBreed.subBreeds.map(subBreed =>
-                                    <table className='subBreedTable'>
+                                    <Table responsive className='SubBreedTable'>
+                                        <thead>
+                                            <th></th>
+                                            <th></th>
+                                        </thead>
                                         <tbody>
                                             <tr key={subBreed.parentBreedId}>
-                                                <td><button className={subBreed.parentBreedId} id={subBreed.dogSubBreedId} onClick={this.deleteSubBreed}>-</button></td>
+                                                <td className={subBreed.parentBreedId}
+                                                    id={subBreed.dogSubBreedId}
+                                                    onClick={this.deleteSubBreed}
+                                                    width="20">
+                                                    <Button bsStyle="error" block bsSize="xsmall">
+                                                        <Glyphicon glyph="glyphicon glyphicon-remove" size="small" />
+                                                    </Button>
+                                                </td>
                                                 <td>{subBreed.subBreedName}</td>
                                             </tr>
                                         </tbody>
-                                    </table>
+                                    </Table>
                                 )}
                             </td>
                         </tr>
                     )}
                 </tbody>
-            </table>
+            </Table>
         );
     }
 
@@ -89,33 +115,29 @@ export class DogListTableComponent extends Component {
                 <h1>Dog Breed Table</h1>
                 <p>Easy, Human Readable List</p>
 
-                <Modal show={this.state.showModalPopup} handleClose={this.hideModal}>
+                <Modal show={this.state.showModalPopup}
+                       handleClose={this.hideModal}>
                     <h1>Add Breed</h1>
                     <form onSubmit={this.postDogBreed}>
                         <label>
                             Breed Name: <input type="text" name="breedName" />
-                        </label>
-                        <input type="submit" value="Submit" />
-                        <label>
-                            {this.state.postResponse}
+
+                            <input type="submit" value="Submit" />
                         </label>
                     </form>
                 </Modal>
 
-                <Modal show={this.state.showSubBreedModal} handleClose={this.hideSubBreedModal}>
+                <Modal show={this.state.showSubBreedModal}
+                       handleClose={this.hideSubBreedModal}>
                     <h1>Add SubBreed</h1>
                     <form onSubmit={this.addSubBreed}>
                         <label>
                             Sub Breed Name: <input type="text" name="subBreedName" />
-                        </label>
-                        <input type="submit" value="Submit" />
-                        <label>
-                            {this.state.postResponse}
+                        
+                            <input type="submit" value="Submit" />
                         </label>
                     </form>
                 </Modal>
-
-                <button onClick={this.showModal}>Add Breed </button>
                 {contents}
             </div>
         );
@@ -176,7 +198,7 @@ export class DogListTableComponent extends Component {
     }
 
     deleteBreed(breed) {
-        var id = breed.target.id;
+        var id = breed.currentTarget.id;
         var url = 'https://raedogrestapi.azurewebsites.net/api/dogbreed/' + id;  
         fetch(url, {
             method: 'DELETE',
@@ -190,8 +212,8 @@ export class DogListTableComponent extends Component {
     }
 
     deleteSubBreed(subBreedRemoveButton) {
-        var subBreedId = subBreedRemoveButton.target.id;
-        var parentBreedId = subBreedRemoveButton.target.className;
+        var subBreedId = subBreedRemoveButton.currentTarget.id;
+        var parentBreedId = subBreedRemoveButton.currentTarget.className;
         var URL = 'https://raedogrestapi.azurewebsites.net/api/dogbreed/' + parentBreedId + "/subbreed/" + subBreedId;
 
         fetch(URL, {

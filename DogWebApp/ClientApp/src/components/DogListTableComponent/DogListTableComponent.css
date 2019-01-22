@@ -1,26 +1,61 @@
 ﻿.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width:100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .modal-main {
-  position:fixed;
-  background: white;
-  width: 80%;
-  height: auto;
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%);
+    position: fixed;
+    background: white;
+    width: 80%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-justify-content: inherit;
+    justify-content: inherit;
+    border-radius: 5px;
 }
 
+    .modal-main h1 {
+        text-align: center;
+    }
+
+    .modal-main .closeModal {
+        float: right;      
+    }
+
+    .modal-main form {
+        padding: 20px;
+        width: 80%;
+        margin: 0 auto;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+
+        .modal-main form label {
+            display: block;
+            background: white;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .modal-main form input {
+            margin: 20px;            
+            text-align: center;
+        }
+
 .display-block {
-  display: block;
+    display: block;
 }
 
 .display-none {
-  display: none;
+    display: none;
+}
+
+.glyphicon-remove{
+    color:red;
 }
