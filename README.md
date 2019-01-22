@@ -1,8 +1,3 @@
----
-
-
----
-
 <h1 id="wecome-to-the-rae-dog-rest-api-and-client">Wecome to the Rae Dog Rest API And Client</h1>
 <h1 id="live-instances">Live Instances</h1>
 <ul>
