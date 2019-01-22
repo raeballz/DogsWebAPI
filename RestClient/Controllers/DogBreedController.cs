@@ -44,7 +44,7 @@
                 {
                     DataContextHelper.PopulateDbContextWithNewDogBreedSubbreeds(subBreeds, breedId, this.dataContext);
                     breedId++;
-                }                
+                }
             }
         }
 
@@ -60,7 +60,7 @@
             using (WebClient client = new WebClient())
             {
                 IEnumerable<DogBreedItem> items = dataContext.DogBreedItemList.Include(breed => breed.SubBreeds).AsEnumerable();
-                
+
                 if (items.Count() == 0)
                 {
                     return NoContent();
@@ -84,6 +84,48 @@
             {
                 requestedBreed = await dataContext.DogBreedItemList.Include(breed => breed.SubBreeds).FirstAsync(breed => breed.DogBreedItemId == id);
                 return Ok(requestedBreed);
+            }
+            catch
+            {
+                return NotFound("Did not exist");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{parentBreedID}/subbreed")]
+        public async Task<ActionResult<DogBreedItem>> GetBreedSubBreeds(long parentBreedID)
+        {
+            List<DogSubBreed> requestedSubBreeds;
+            try
+            {
+                requestedSubBreeds = dataContext.DogSubBreedItemList.Where(x => x.ParentBreedId == parentBreedID).ToList();
+                return Ok(requestedSubBreeds);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parentBreedID"></param>
+        /// <returns></returns>
+        [HttpGet("{parentBreedID}/subbreed/{subBreedId}")]
+        public async Task<ActionResult<DogBreedItem>> GetBreedSubBreedByID(long parentBreedID, long subBreedId)
+        {
+            DogBreedItem requestedBreed;
+            DogSubBreed requestedSubBreed;
+            try
+            {
+                requestedBreed = await dataContext.DogBreedItemList.Include(breed => breed.SubBreeds).FirstAsync(breed => breed.DogBreedItemId == parentBreedID);
+                requestedSubBreed = requestedBreed.SubBreeds.First(x => x.DogSubBreedId == subBreedId);
+                return Ok(requestedSubBreed);
             }
             catch
             {
@@ -128,7 +170,30 @@
         /// </summary>
         /// <param name="id">Unique Id of Dog Breed</param>
         /// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
-        [HttpDelete]
+        [HttpDelete("{id}/subbreed/{subBreedId}")]
+        public async Task<ActionResult<DogBreedItem>> DeleteSubBreedByID(long id, long subBreedId)
+        {
+            DogSubBreed subBreedToDelete = new DogSubBreed();
+            try
+            {
+                var parentBreed = await dataContext.DogBreedItemList.FirstAsync(breed => breed.DogBreedItemId == id);
+                subBreedToDelete = dataContext.DogSubBreedItemList.First(subbreed => subbreed.ParentBreedId == parentBreed.DogBreedItemId && subbreed.DogSubBreedId == subBreedId);
+                dataContext.DogSubBreedItemList.Remove(subBreedToDelete);
+                await dataContext.SaveChangesAsync();
+                return Ok(subBreedToDelete);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// HTTP Method to delete breed via ID
+        /// </summary>
+        /// <param name="id">Unique Id of Dog Breed</param>
+        /// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
+        [ActionName("ResetDatabase")]
         public async Task<ActionResult<DogBreedItem>> DeleteAllEntries()
         {
             DogBreedItem breedToDelete;
@@ -147,7 +212,6 @@
             dataContext.SaveChanges();
             return NoContent();
         }
-        
         #endregion
 
         #region HTTPPost
@@ -162,8 +226,8 @@
             try
             {
                 //Validate breed details
-                if (dataContext.DogBreedItemList.Any( x => x.BreedName == dogBreed.BreedName))
-                {                    
+                if (dataContext.DogBreedItemList.Any(x => x.BreedName == dogBreed.BreedName))
+                {
                     return UnprocessableEntity($"\"Error\" : \"Breed Name {dogBreed.BreedName} already exists.\"");
                 }
 
@@ -186,7 +250,7 @@
                 {
                     if (dogBreed.SubBreeds.Count != 0)
                     {
-                        foreach(var x in dogBreed.SubBreeds )
+                        foreach (var x in dogBreed.SubBreeds)
                         {
                             if (x.SubBreedName == "" || x.SubBreedName == null)
                             {
@@ -210,20 +274,61 @@
                 if (dogBreed.SubBreeds.Count != 0)
                 {
                     //Set subbreed parentId to the Id that got generated when the parent was saved to the database.
-                    dogBreed = dataContext.DogBreedItemList.First( x => x.BreedName == dogBreed.BreedName);                    
+                    dogBreed = dataContext.DogBreedItemList.First(x => x.BreedName == dogBreed.BreedName);
                     dogBreed.SubBreeds.ForEach(x => x.ParentBreedId = dogBreed.DogBreedItemId);
                     await dataContext.SaveChangesAsync();
                 }
 
                 //Return object we successfully built
-                return Created($"api/dogbreed/{dogBreed.DogBreedItemId}",dataContext.DogBreedItemList.Find(dogBreed.DogBreedItemId));
+                return Created($"api/dogbreed/{dogBreed.DogBreedItemId}", dataContext.DogBreedItemList.Find(dogBreed.DogBreedItemId));
             }
             catch
             {
                 dataContext.DogBreedItemList.Remove(dogBreed);
                 await dataContext.SaveChangesAsync();
                 return UnprocessableEntity("Could not process. Check your formatting for missing parenthesis and list seperators.");
-            }                
+            }
+        }
+
+        [HttpPost("{parentBreedId}/subbreed/")]
+        public async Task<ActionResult<DogSubBreed>> PostSubBreed(long parentBreedId, long subBreedId, DogSubBreed dogSubBreed)
+        {
+            dogSubBreed.ParentBreedId = parentBreedId;
+            DogBreedItem parentBreed;
+            try
+            {
+                parentBreed = dataContext.DogBreedItemList.Include(breed => breed.SubBreeds).First(x => x.DogBreedItemId == parentBreedId);
+            }
+            catch
+            {
+                return UnprocessableEntity("\"Error\" : \"Parent breed does not exist.\"");
+            }
+
+            try
+            {
+                if (parentBreed.SubBreeds.Exists(x => x.DogSubBreedId == dogSubBreed.DogSubBreedId))
+                {
+                    return UnprocessableEntity("\"Error\" : \"A dog with that subbreed Id already exists.\"");
+                }
+
+                if (parentBreed.SubBreeds.Exists(x => x.SubBreedName == dogSubBreed.SubBreedName))
+                {
+                    return UnprocessableEntity("\"Error\" : \"A breed can not contain two sub-breeds with the same name. Same sub-breed names are fine within seperate breed objects.\"");
+                }
+
+                dataContext.DogSubBreedItemList.Add(dogSubBreed);
+                await dataContext.SaveChangesAsync();
+
+                DogSubBreed createdSubBreed = await dataContext.DogSubBreedItemList.Where(x => x.SubBreedName == dogSubBreed.SubBreedName).FirstAsync(x => x.ParentBreedId == parentBreedId);
+                dataContext.DogBreedItemList.Find(parentBreed.DogBreedItemId).SubBreeds.Add(createdSubBreed);
+                await dataContext.SaveChangesAsync();
+
+                return Created($"api/dogbreed/{parentBreedId}/subbreed/{createdSubBreed.DogSubBreedId}", createdSubBreed);
+            }            
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         #endregion

@@ -8,17 +8,18 @@ export class Counter extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { currentCount: 0, jsonPayload: this.populateJsonFromUrl()}
+        this.state = { currentCount: 0, jsonPayload: this.populateJsonFromUrl() };
+        this.regenerateDatabase = this.regenerateDatabase.bind(this);
     }
 
-    regenerateDatabase(item, url) {
+    regenerateDatabase() {
         return fetch('https://raedogrestapi.azurewebsites.net/api/dogbreed/-1', {
             method: 'delete'
         }).then(response =>
             response.json().then(json => {
                 return json;
             })
-        )
+        );
     }
 
     render() {

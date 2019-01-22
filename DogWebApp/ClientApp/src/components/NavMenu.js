@@ -28,7 +28,7 @@ export class NavMenu extends Component {
                 <Glyphicon glyph='education' /> Json Viewer
               </NavItem>
             </LinkContainer>
-            <LinkContainer to={'/fetchdata'}>
+            <LinkContainer to={'/dogListTable'}>
               <NavItem>
                 <Glyphicon glyph='th-list' /> Breed Table
               </NavItem>
