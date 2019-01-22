@@ -13,8 +13,8 @@ export class Counter extends Component {
     }
 
     regenerateDatabase() {
-        return fetch('https://raedogrestapi.azurewebsites.net/api/dogbreed/-1', {
-            method: 'delete'
+        return fetch('https://raedogrestapi.azurewebsites.net/api/dogbreed-1', {
+            method: 'DELETE'
         }).then(response =>
             response.json().then(json => {
                 return json;
