@@ -140,7 +140,6 @@ export class DogListTableComponent extends Component {
             body: json,
         }).then(res => res.json())
             .then(response => alert('Successfully Added: ' + JSON.stringify(response)))
-            .then(this.fetchJsonList())
             .catch(error => console.error('Error:', error));
     }
 
@@ -162,9 +161,11 @@ export class DogListTableComponent extends Component {
             },
             body: json,
         }).then(res => res.json())
-            .then(response => alert('Successfully Added: ' + JSON.stringify(response)))
-            .then(() => this.fetchJsonList())
+            .then(response => this.setState({ addSubBreedRespose: JSON.stringify(response) }))
+            .then(() => alert('Successfully Added: ' + this.state.addSubBreedRespose))
+            .then(() => console.log('Success:', this.state.addSubBreedRespose))
             .catch(error => console.error('Error:', error));
+        this.setState(this.state);
     }
 
     deleteBreed(breed) {
@@ -173,9 +174,12 @@ export class DogListTableComponent extends Component {
         fetch(url, {
             method: 'DELETE',
         }).then(res => res.json())
-            .then(response => alert('Successfully removed: ' + JSON.stringify(response)))
+            .then(response => this.setState({ deleteResponse: JSON.stringify(response) }))
+            .then(() => alert('Successfully removed: ' + this.state.deleteResponse))
             .then(() => this.fetchJsonList())
+            .then(() => console.log('Success:', this.state.deleteResponse))
             .catch(error => console.error('Error:', error));
+        this.setState(this.state);
     }
 
     deleteSubBreed(subBreedRemoveButton) {
@@ -186,9 +190,12 @@ export class DogListTableComponent extends Component {
         fetch(URL, {
             method: 'DELETE'
         }).then(res => res.json())
-            .then(response => alert('Successfully removed: ' + JSON.stringify(response)))
+            .then(response => this.setState({ deleteSubBreedResponse: JSON.stringify(response) }))
+            .then(() => alert('Successfully removed: ' + this.state.deleteSubBreedResponse))
             .then(() => this.fetchJsonList())
+            .then(console.log('Success:', this.state.deleteSubBreedResponse))
             .catch(error => console.error('Error:', error));
+        this.setState(this.state);
     }
 
     showModal() {
@@ -212,7 +219,8 @@ export class DogListTableComponent extends Component {
         var url = 'https://raedogrestapi.azurewebsites.net/api/dogbreed';
         fetch(url)
             .then((response) => response.json())
-            .then(x => this.setState({ dogBreeds: x, loading:false }));        
+            .then(x => this.setState({ dogBreeds: x, loading:false }))            
+            .then(x => this.forceUpdate());        
     }
 }
 
