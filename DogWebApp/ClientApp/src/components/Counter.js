@@ -13,7 +13,7 @@ export class Counter extends Component {
     }
 
     regenerateDatabase() {
-        return fetch('https://localhost:44371/api/dogbreed/-1', {
+        return fetch('https://raedogrestapi.azurewebsites.net/api/dogbreed-1', {
             method: 'DELETE'
         }).then(response =>
             response.json().then(json => {
@@ -39,7 +39,7 @@ export class Counter extends Component {
     }
 
     populateJsonFromUrl = async () => {
-        var url = 'https://localhost:44371/api/dogbreed/';
+        var url = 'https://raedogrestapi.azurewebsites.net/api/dogbreed';
 
         fetch(url)
             .then((response) => response.json())
