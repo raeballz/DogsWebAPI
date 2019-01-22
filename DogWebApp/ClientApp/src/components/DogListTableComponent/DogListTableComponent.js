@@ -122,6 +122,7 @@ export class DogListTableComponent extends Component {
     }
 
     postDogBreed(event) {
+        event.preventDefault();
         const data = new (FormData)(event.target);
 
         var object = {};
@@ -139,11 +140,16 @@ export class DogListTableComponent extends Component {
             },
             body: json,
         }).then(res => res.json())
-            .then(response => alert('Successfully Added: ' + JSON.stringify(response)))
+            .then(response => this.setState({ addBreedResponse: JSON.stringify(response) }))
+            .then(() => alert('Successfully Added: ' + this.state.addBreedResponse))
+            .then(() => this.fetchJsonList())
+            .then(() => console.log('Success:', this.state.addBreedResponse))
             .catch(error => console.error('Error:', error));
+        this.setState(this.state);
     }
 
     addSubBreed(event) {
+        event.preventDefault();
         var parentId = this.state.breedToAddSubBreedTo;
         const data = new (FormData)(event.target);
 
@@ -161,9 +167,10 @@ export class DogListTableComponent extends Component {
             },
             body: json,
         }).then(res => res.json())
-            .then(response => this.setState({ addSubBreedRespose: JSON.stringify(response) }))
-            .then(() => alert('Successfully Added: ' + this.state.addSubBreedRespose))
-            .then(() => console.log('Success:', this.state.addSubBreedRespose))
+            .then(response => this.setState({ addSubBreedResponse: JSON.stringify(response) }))
+            .then(() => alert('Successfully Added: ' + this.state.addSubBreedResponse))
+            .then(() => this.fetchJsonList())
+            .then(() => console.log('Success:', this.state.addSubBreedResponse))
             .catch(error => console.error('Error:', error));
         this.setState(this.state);
     }
