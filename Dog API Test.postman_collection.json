@@ -7,510 +7,632 @@
 	},
 	"item": [
 		{
-			"name": "Get All Breeds",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "id",
-						"value": "2",
-						"disabled": true
-					}
-				],
-				"body": {},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"api",
-						"dogbreed",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All SubBreeds of Dog",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/76/subbreed",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"api",
-						"dogbreed",
-						"76",
-						"subbreed"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Subbreed by Id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Breed By Id",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/15",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"api",
-						"dogbreed",
-						"15"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "ResetDB",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/15",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"api",
-						"dogbreed",
-						"15"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Sub Breed",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/80/subbreed/65",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"api",
-						"dogbreed",
-						"80",
-						"subbreed",
-						"65"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Breed, No Array.",
-			"event": [
+			"name": "GET",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "3973de25-fab1-4277-b263-4d09e33e64c9",
-						"exec": [
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
-							"});",
-							"",
-							"pm.test(\"Response time is less than 200ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"breedName\":\"new breed\"}"
-				},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/",
-					"host": [
-						"{{URL}}"
+					"name": "Breed",
+					"item": [
+						{
+							"name": "Get All Breeds",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "id",
+										"value": "2",
+										"disabled": true
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Breed By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/80",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										"80"
+									]
+								}
+							},
+							"response": []
+						}
 					],
-					"path": [
-						"api",
-						"dogbreed",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Breed, Empty Array",
-			"event": [
+					"_postman_isSubFolder": true
+				},
 				{
-					"listen": "test",
-					"script": {
-						"id": "210d9388-fca8-413e-8c3a-9b0d8dd92ff2",
-						"exec": [
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
-							"});",
-							"",
-							"pm.test(\"Response time is less than 200ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"breedName\": \"POST; Empty Array\",\n\t\"subBreeds\": []\n}"
-				},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/",
-					"host": [
-						"{{URL}}"
+					"name": "Sub breed",
+					"item": [
+						{
+							"name": "Get All SubBreeds of Dog",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/76/subbreed",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										"76",
+										"subbreed"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Subbreed by Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						}
 					],
-					"path": [
-						"api",
-						"dogbreed",
-						""
-					]
+					"_postman_isSubFolder": true
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "POST Breed, Array, Single Entry",
-			"event": [
+			"name": "POST",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "268319c8-0d7e-445f-bf49-1e23f04f24fb",
-						"exec": [
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"breedName\": \"POST; Single Sub-breed\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"staffordshire\"\n        }\n    ]\n}"
-				},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/",
-					"host": [
-						"{{URL}}"
+					"name": "Breed",
+					"item": [
+						{
+							"name": "POST Breed, No Array.",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3973de25-fab1-4277-b263-4d09e33e64c9",
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 200ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"breedName\":\"new breed\"}"
+								},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Breed, Empty Array",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "210d9388-fca8-413e-8c3a-9b0d8dd92ff2",
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 200ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"breedName\": \"POST; Empty Array\",\n\t\"subBreeds\": []\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Breed, Array, Single Entry",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "268319c8-0d7e-445f-bf49-1e23f04f24fb",
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"breedName\": \"POST; Single Sub-breed\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"staffordshire\"\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Breed, Array, Duplicate Entries",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1cd56477-8aca-4698-b76c-d0fb4c43efec",
+										"exec": [
+											"pm.test(\"Status code is 422\", function () {",
+											"    pm.response.to.have.status(422);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"breedName\": \"POST;Dupe Sub-breeds\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        },\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Breed, Array, Multiple Entries",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0512b14a-0891-41fe-94aa-4fcdefd3e81e",
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"breedName\": \"POST;Multiple Valid Sub-breeds\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        },\n        {\n            \"subBreedName\": \"Sub Breed 2\"\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Breed, No name value",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ebc1c754-64be-4b0f-961d-421a198757b7",
+										"exec": [
+											"pm.test(\"Status code is 422\", function () {",
+											"    pm.response.to.have.status(422);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"breedName\": \"\"\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Breed, Null Breed Name Value",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cdffab2c-973a-4214-8afc-9a72825d49de",
+										"exec": [
+											"pm.test(\"Status code is 422\", function () {",
+											"    pm.response.to.have.status(422);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"breedName\": null\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Breed, Null Sub-breed Value",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cdffab2c-973a-4214-8afc-9a72825d49de",
+										"exec": [
+											"pm.test(\"Status code is 422\", function () {",
+											"    pm.response.to.have.status(422);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"breedName\": \"POST; NullSubBreed\",\n\t\"subBreeds\": \n\t[\n\t    {\n\t    \t\"subBreedName\":null\n\t    }\n\t]\n}"
+								},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										""
+									]
+								}
+							},
+							"response": []
+						}
 					],
-					"path": [
-						"api",
-						"dogbreed",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Breed, Array, Duplicate Entries",
-			"event": [
+					"_postman_isSubFolder": true
+				},
 				{
-					"listen": "test",
-					"script": {
-						"id": "1cd56477-8aca-4698-b76c-d0fb4c43efec",
-						"exec": [
-							"pm.test(\"Status code is 422\", function () {",
-							"    pm.response.to.have.status(422);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"breedName\": \"POST;Dupe Sub-breeds\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        },\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        }\n    ]\n}"
-				},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/",
-					"host": [
-						"{{URL}}"
+					"name": "SubBreed",
+					"item": [
+						{
+							"name": "POST Valid Subbreed",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "268319c8-0d7e-445f-bf49-1e23f04f24fb",
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \"subBreedName\": \"american\" }"
+								},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/1/subbreed",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										"1",
+										"subbreed"
+									]
+								}
+							},
+							"response": []
+						}
 					],
-					"path": [
-						"api",
-						"dogbreed",
-						""
-					]
+					"_postman_isSubFolder": true
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "POST Breed, Array, Multiple Entries",
-			"event": [
+			"name": "DELETE",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "0512b14a-0891-41fe-94aa-4fcdefd3e81e",
-						"exec": [
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"breedName\": \"POST;Multiple Valid Sub-breeds\",\n    \"subBreeds\": [\n        {\n            \"subBreedName\": \"Sub Breed 1\"\n        },\n        {\n            \"subBreedName\": \"Sub Breed 2\"\n        }\n    ]\n}"
-				},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/",
-					"host": [
-						"{{URL}}"
+					"name": "Sub Breed",
+					"item": [
+						{
+							"name": "Delete Sub Breed",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/80/subbreed/65",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										"80",
+										"subbreed",
+										"65"
+									]
+								}
+							},
+							"response": []
+						}
 					],
-					"path": [
-						"api",
-						"dogbreed",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Breed, No name value",
-			"event": [
+					"_postman_isSubFolder": true
+				},
 				{
-					"listen": "test",
-					"script": {
-						"id": "ebc1c754-64be-4b0f-961d-421a198757b7",
-						"exec": [
-							"pm.test(\"Status code is 422\", function () {",
-							"    pm.response.to.have.status(422);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"breedName\": \"\"\n}"
-				},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/",
-					"host": [
-						"{{URL}}"
+					"name": "Breed",
+					"item": [
+						{
+							"name": "Delete Breed By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "{{URL}}/api/dogbreed/15",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dogbreed",
+										"15"
+									]
+								}
+							},
+							"response": []
+						}
 					],
-					"path": [
-						"api",
-						"dogbreed",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Breed, Null Breed Name Value",
-			"event": [
+					"_postman_isSubFolder": true
+				},
 				{
-					"listen": "test",
-					"script": {
-						"id": "cdffab2c-973a-4214-8afc-9a72825d49de",
-						"exec": [
-							"pm.test(\"Status code is 422\", function () {",
-							"    pm.response.to.have.status(422);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
+					"name": "ResetDB",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{URL}}/api/dogbreed/-1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"dogbreed",
+								"-1"
+							]
+						}
+					},
+					"response": []
 				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"breedName\": null\n}"
-				},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"api",
-						"dogbreed",
-						""
-					]
-				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "POST Breed, Null Sub-breed Value",
-			"event": [
+			"name": "PUT",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "cdffab2c-973a-4214-8afc-9a72825d49de",
-						"exec": [
-							"pm.test(\"Status code is 422\", function () {",
-							"    pm.response.to.have.status(422);",
-							"});"
+					"name": "PUT Breed",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
 						],
-						"type": "text/javascript"
-					}
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dogBreedItemId\": 82,\n    \"breedName\": \"Hound38\",\n    \"subBreeds\": [\n        {\n            \"dogSubBreedId\": 82,\n            \"subBreedName\": \"Hound3.1\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/dogbreed/82",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"dogbreed",
+								"82"
+							]
+						}
+					},
+					"response": []
 				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"breedName\": \"POST; NullSubBreed\",\n\t\"subBreeds\": \n\t[\n\t    {\n\t    \t\"subBreedName\":null\n\t    }\n\t]\n}"
-				},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"api",
-						"dogbreed",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PUT Breed",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"dogBreedItemId\": 82,\n    \"breedName\": \"Hound38\",\n    \"subBreeds\": [\n        {\n            \"dogSubBreedId\": 82,\n            \"subBreedName\": \"Hound3.1\"\n        }\n    ]\n}"
-				},
-				"url": {
-					"raw": "{{URL}}/api/dogbreed/82",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"api",
-						"dogbreed",
-						"82"
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	]
 }
