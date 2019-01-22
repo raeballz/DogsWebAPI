@@ -1,8 +1,3 @@
----
-
-
----
-
 <h1 id="wecome-to-the-rae-dog-rest-api-and-client">Wecome to the Rae Dog Rest API And Client</h1>
 <h1 id="project-brief">Project Brief</h1>
 <h2 id="the-scenario">The Scenario</h2>
