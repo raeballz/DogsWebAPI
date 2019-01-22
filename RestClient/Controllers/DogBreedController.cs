@@ -193,7 +193,6 @@
         /// </summary>
         /// <param name="id">Unique Id of Dog Breed</param>
         /// <returns>204 If Successful, 404 Not found If Unsuccesful</returns>
-        [ActionName("ResetDatabase")]
         public async Task<ActionResult<DogBreedItem>> DeleteAllEntries()
         {
             DogBreedItem breedToDelete;
@@ -204,12 +203,23 @@
             {
                 breedToDelete = await dataContext.DogBreedItemList.FirstAsync(x => x.DogBreedItemId == id);
                 subBreedsToDelete = dataContext.DogSubBreedItemList.Where(subbreed => subbreed.ParentBreedId == breedToDelete.DogBreedItemId).ToList();
-                subBreedsToDelete.ForEach(subbreed => dataContext.DogSubBreedItemList.Remove(subbreed));
+                if (subBreedsToDelete.Count != 0)
+                {
+                    subBreedsToDelete.ForEach(subbreed => dataContext.DogSubBreedItemList.Remove(subbreed));
+                }
                 dataContext.DogBreedItemList.Remove(breedToDelete);
-                id++;
+                await dataContext.SaveChangesAsync();
+                try
+                {
+                    id = dataContext.DogBreedItemList.First().DogBreedItemId;
+                }
+                catch
+                {
+                    //List is now empty
+                }
             }
 
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
             return NoContent();
         }
         #endregion
