@@ -87,7 +87,7 @@
             }
             catch
             {
-                return NotFound();
+                return NotFound("Did not exist");
             }
         }
 
